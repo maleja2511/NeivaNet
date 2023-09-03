@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <h2 class="profile-title">{{ user.username }}</h2>
+  <div class="profile-info">
+    {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
+      <img src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}" width="200">
+    {% else %}
+      <img src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic" width="200">
+    {% endif %}
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>First name:</strong> {{ user.first_name }}</p>
+    <p><strong>Last name:</strong> {{ user.last_name }}</p>
+    <p><strong>Date of Birth:</strong> {{ user.userprofile.date_of_birth }}</p>
+    <div class="form-footer">
+      <a href="{% url 'update_profile' %}">Update Profile</a>
+    </div>
+  </div>
+{% endblock %}

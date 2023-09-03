@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}NeivaNet{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+</head>
+<body>
+
+    <header>
+        <!-- Aquí puedes poner una barra de navegación o cualquier otro elemento de cabecera -->
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- El contenido específico de cada página irá aquí -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Aquí puedes poner un pie de página -->
+    </footer>
+
+</body>
+</html>
