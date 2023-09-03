@@ -53,7 +53,5 @@ Ahora, abre tu navegador y navega a `http://127.0.0.1:8000/` para ver el proyect
 
 Siéntete libre de contribuir al proyecto. Para cualquier bug, pregunta o sugerencia, puedes abrir un issue.
 
-## Licencia
 
-MIT
 
