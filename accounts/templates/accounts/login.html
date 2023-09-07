@@ -1,24 +1,47 @@
 {% extends 'base.html' %} {% block content %}
-<h2 class="register-title">Login</h2>
-<form method="post" class="register-form">
-  {% csrf_token %}
-  <div class="form-group">
-    {{ form.username.label_tag }} {{ form.username }}
-  </div>
-  <div class="form-group">
-    {{ form.password.label_tag }} {{ form.password }}
-  </div>
+<div class="limiter">
+  <div class="container-login100" style="background-image: url('/static/img/bg-01.jpg');">
+    <div class="wrap-login100">
 
-  {% if form.errors %}
-  <p>Your form has errors: {{ form.errors }}</p>
-  {% endif %}
+      <form method="post" class="login100-form validate-form">
+        {% csrf_token %}
+        
+        <span class="login100-form-logo">
+          <i class="fa-solid fa-ethernet icon"></i>
+        </span>
 
-  <button type="submit" class="register-button">Login</button>
-</form>
-<div class="form-footer">
-  <a href="{% url 'register' %}">Don't have an account? Register here</a>
-</div>
-<div class="form-footer">
-  <a href="{% url 'password_reset' %}">Forgot Password?</a>
+        <span class="login100-form-title">
+          Login
+        </span>
+
+        <div class="form-group">
+          {{ form.username.label_tag }} {{ form.username }}
+        </div>
+
+        <div class="form-group">
+          {{ form.password.label_tag }} {{ form.password }}
+        </div>
+
+        {% if form.errors %}
+        <p>Your form has errors: {{ form.errors }}</p>
+        {% endif %}
+
+        <div class="container-login100-form-btn">
+          <button type="submit" class="login100-form-btn">
+            Login
+          </button>
+        </div>
+
+      </form>
+
+      <div class="form-footer">
+        <a href="{% url 'register' %}">Don't have an account? Register here</a>
+      </div>
+      <div class="form-footer">
+        <a href="{% url 'password_reset' %}">Forgot Password?</a>
+      </div>
+
+    </div>
+  </div>
 </div>
 {% endblock %}
