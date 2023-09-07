@@ -16,10 +16,14 @@ body {
 }
 
 .form-group label {
-    padding: 10px;
+    padding-top: 10px;
     font-weight: bold;
     margin-bottom: 8px;
     color: #fff;
+}
+
+.form-index label{
+  color: #000000;
 }
 
 .form-group input {
@@ -262,5 +266,47 @@ button:hover {
     }
   }
   
+  /* ancla -----*/
+
   
+  .ancla100-form-a {
+    font-size: 16px;
+    color: #555555;
+    line-height: 1.2;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    min-width: 120px;
+    height: 50px;
+    border-radius: 25px;
+    position: relative;
+    z-index: 1;
+    background: #0d5588;
+  
+  }
+
+  
+.ancla100-form-a::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    background-color: #a2deff;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    text-decoration: none;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+  }
   
