@@ -2,7 +2,6 @@ body {
     font-family: 'Helvetica', Arial, sans-serif;
 }
 
-
 * {
 	margin: 0px; 
 	padding: 0px; 
@@ -34,8 +33,6 @@ body {
     width: 100%;
 }
 
-
-
 button {
 	outline: none !important;
 	border: none;
@@ -45,7 +42,6 @@ button {
 button:hover {
 	cursor: pointer;
 }
-
 
 .form-footer {
     text-align: center;
@@ -57,8 +53,6 @@ button:hover {
     text-decoration: none;
     transition: color 0.2s ease;
 }
-
-
 
 .errorlist {
     color: red;
@@ -97,15 +91,12 @@ button:hover {
     color:#000545
 }
 
-
 /*----------------------------------[ login ]*/
 
 .limiter {
   width: 100%;
   margin: 0 auto;
 }
-
-
 
 .container-login100 {
   width: 100%;  
@@ -151,9 +142,7 @@ button:hover {
   background: linear-gradient(top, #caf0f8, #0077b6);
 }
 
-
-/*------------------------------------------------------------------
-[ Form ]*/
+/*[ Form ]*/
 
 .login100-form {
   width: 100%;
@@ -188,10 +177,7 @@ button:hover {
   display: block;
 }
 
-
-
-/*------------------------------------------------------------------
-[ Button ]*/
+/*[ Button ]*/
 .container-login100-form-btn {
     width: 100%;
     display: -webkit-box;
@@ -225,7 +211,6 @@ button:hover {
   
   }
 
-  
 .login100-form-btn::before {
     content: "";
     display: block;
@@ -245,8 +230,6 @@ button:hover {
     transition: all 0.4s;
   }
   
-  
-  
   .login100-form-btn:hover {
     color: #fff;
   }
@@ -254,21 +237,16 @@ button:hover {
   .login100-form-btn:hover:before {
     opacity: 0;
   }
-  
-  
 
-/*------------------------------------------------------------------
-[ Responsive ]*/
+/*[ Responsive ]*/
 
 @media (max-width: 576px) {
     .wrap-login100 {
       padding: 55px 15px 37px 15px;
     }
   }
-  
-  /* ancla -----*/
 
-  
+  /* ancla */
   .ancla100-form-a {
     font-size: 16px;
     color: #555555;
@@ -290,7 +268,6 @@ button:hover {
   
   }
 
-  
 .ancla100-form-a::before {
     content: "";
     display: block;
@@ -309,4 +286,3 @@ button:hover {
     -moz-transition: all 0.4s;
     transition: all 0.4s;
   }
-  

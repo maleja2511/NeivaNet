@@ -130,3 +130,11 @@ LOGIN_REDIRECT_URL = '/profile/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#configuracion correo
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Por ejemplo: 'smtp.gmail.com'
+EMAIL_PORT = 587  # Usualmente el puerto 587 es para TLS
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'neivanet34@gmail.com'
+EMAIL_HOST_PASSWORD = 'eroigdwgpfudmxrn'
