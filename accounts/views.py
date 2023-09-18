@@ -4,9 +4,10 @@ from .forms import RegisterForm
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import UserProfileForm
 from .models import UserProfile
+from django.contrib.auth.models import User
 
 class RegisterView(CreateView):
     form_class = RegisterForm
@@ -19,7 +20,15 @@ class UserProfileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
+
+        # Si se proporciona user_id, muestra el perfil de ese usuario
+        user_id = self.kwargs.get('user_id')
+        if user_id:
+            context['profile_user'] = get_object_or_404(User, id=user_id)
+        else:
+            # De lo contrario, muestra el perfil del usuario autenticado
+            context['profile_user'] = self.request.user
+
         return context
     
 
