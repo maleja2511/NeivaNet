@@ -1,47 +1,65 @@
-{% extends 'base.html' %} {% block content %}
-<div class="limiter">
-  <div class="container-login100" style="background-image: url('/static/img/bg-01.jpg');">
-    <div class="wrap-login100">
+{% load static %}
 
-      <form method="post" class="login100-form validate-form">
-        {% csrf_token %}
-        
-        <span class="login100-form-logo">
-          <i class="fa-solid fa-ethernet icon"></i>
-        </span>
+<!DOCTYPE html>
+<html lang="en">
 
-        <span class="login100-form-title">
-          Login
-        </span>
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}NeivaNet{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 
-        <div class="form-group">
-          {{ form.username.label_tag }} {{ form.username }}
+<body>
+  <main>
+    <div class="limiter">
+      <div class="container-login100" style="background-image: url('/static/img/bg-01.jpg');">
+        <div class="wrap-login100">
+
+          <form method="post" class="login100-form validate-form">
+            {% csrf_token %}
+
+            <span class="login100-form-logo">
+              <i class="fa-solid fa-ethernet icon"></i>
+            </span>
+
+            <span class="login100-form-title">
+              Login
+            </span>
+
+            <div class="form-group">
+              {{ form.username.label_tag }} {{ form.username }}
+            </div>
+
+            <div class="form-group">
+              {{ form.password.label_tag }} {{ form.password }}
+            </div>
+
+            {% if form.errors %}
+            <p>Your form has errors: {{ form.errors }}</p>
+            {% endif %}
+
+            <div class="container-login100-form-btn">
+              <button type="submit" class="login100-form-btn">
+                Login
+              </button>
+            </div>
+
+          </form>
+
+          <div class="form-footer">
+            <a href="{% url 'register' %}">Don't have an account? Register here</a>
+          </div>
+          <div class="form-footer">
+            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+          </div>
+
         </div>
-
-        <div class="form-group">
-          {{ form.password.label_tag }} {{ form.password }}
-        </div>
-
-        {% if form.errors %}
-        <p>Your form has errors: {{ form.errors }}</p>
-        {% endif %}
-
-        <div class="container-login100-form-btn">
-          <button type="submit" class="login100-form-btn">
-            Login
-          </button>
-        </div>
-
-      </form>
-
-      <div class="form-footer">
-        <a href="{% url 'register' %}">Don't have an account? Register here</a>
       </div>
-      <div class="form-footer">
-        <a href="{% url 'password_reset' %}">Forgot Password?</a>
-      </div>
-
     </div>
-  </div>
-</div>
-{% endblock %}
+  </main>
+</body>
+
+</html>
