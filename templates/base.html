@@ -47,26 +47,56 @@
     <main>
         <div class="all">
             <div class="rowfixed"></div>
-            <div class="left_row">
-                <div class="left_row_profile">
+                <div class="left_row">
                     <div class="left_row_profile">
-                        <img id="profile_pic" src="images/user.jpg" /><br>
-                        <span>{{ user.username }}
-                        </span>
+                        {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
+                            <img id="profile_pic" src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}">
+                        {% else %}
+                            <img id="profile_pic" src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic">
+                        {% endif %} 
+                        <span>{{ user.username }}</span>
                     </div>
-                </div>
-                <div class="rowmenu">
-                    <ul>
-                        <li><a href="{% url 'posts' %}" id="rowmenu-selected"><i class="fa fa-globe"></i>Newsfeed</a></li>
-                        <li><a href="{% url 'profile' %}"><i class="fa fa-user"></i>Profile</a></li>
-                        <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
-                    </ul>
-                </div>
+                    <div class="rowmenu">
+                        <ul>
+                            <li><a href="{% url 'posts' %}" id="rowmenu-selected"><i
+                                        class="fa fa-globe"></i>Newsfeed</a>
+                            </li>
+                            <li><a href="{% url 'profile' %}"><i class="fa fa-user"></i>Profile</a></li>
+                            <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
+                        </ul>
+                    </div>
             </div>
+
             {% block content %}
             <!-- El contenido específico de cada página irá aquí -->
             {% endblock %}
+
+            <div class="suggestions_row">
+                <div class="row shadow">
+                    <div class="row_title">
+                        <span>Friend Suggestions</span>
+                        <a href="friends.html">see more..</a>
+                    </div>
+                    <div class="row_contain">
+                        <img src="images/user-7.jpg" alt="" />
+                        <span><b>Francine Smith</b><br>8 Friends in Common</span>
+                        <button>+</button>
+                    </div>
+                    <div class="row_contain">
+                        <img src="images/user-2.jpg" alt="" />
+                        <span><b>Hugh Wilson</b><br>6 Friends in Common</span>
+                        <button>+</button>
+                    </div>
+                    <div class="row_contain">
+                        <img src="images/user-6.jpg" alt="" />
+                        <span><b>Karen Masters</b><br>6 Friends in Common</span>
+                        <button>+</button>
+                    </div>
+                </div>
+            </div>
+            
         </div>
+
     </main>
 
     <footer>

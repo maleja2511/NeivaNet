@@ -2,24 +2,73 @@
 
 {% block title %}Posts{% endblock %}
 
-{% block content %}
-<div class="create-post">
-    <h2>Crear nuevo post</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Publicar</button>
-    </form>
-</div>
+{% load static %}
 
-<div class="posts-container">
-    {% for post in posts %}
-    <div class="post">
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.content }}</p>
-        <span>Publicado por: <a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></span>
-        <span>Fecha: {{ post.date_posted }}</span>
+{% block content %}
+<div class="right_row">
+    <div class="row">
+        <div class="publish">
+            <div class="row_title">
+                <span><i class="fa-regular fa-newspaper"></i> Crear nuevo post</span>
+
+            </div>
+            <form method="post">
+                <div class="publish_textarea">
+                    {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
+                        <img class="border-radius-image" src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}" width="200">
+                    {% else %}
+                        <img class="border-radius-image" src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic" width="200">
+                    {% endif %}
+                    <div class="publish-content">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </div>
+                </div>
+                <div class="publish_icons">
+                    <ul>
+                        <li><i class="fa fa-camera"></i></li>
+                    </ul>
+                    <button type="submit">Publish</button>
+                </div>
+            </form>
+        </div>
     </div>
-    {% endfor %}
+
+    <div class="row border-radius">
+        <div class="feed">
+            {% for post in posts %}
+            <div class="post">
+                <div class="feed_title">
+                    {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
+                        <img src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}" width="200">
+                    {% else %}
+                        <img src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic" width="200">
+                    {% endif %}
+                    <span><b><a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></b> <br><p>{{ post.date_posted }}</p></span>
+                </div>
+                <div class="feed_content">
+                    <div class="feed_content_image">
+                        <h2>{{ post.title }}</h2>
+                        <a href="feed.html"><img src="images/photo-1.jpg" alt="" /></a>
+                        <p>{{ post.content }}</p>
+                    </div>
+                    
+                </div>
+                <div class="feed_footer">
+                    <ul class="feed_footer_left">
+                        <li class="hover-orange selected-orange"><i class="fa fa-heart"></i> 22k</li>
+                        <li><span><b>Jimmy, Andrea</b> and 47 more liked this</span></li>
+                    </ul>
+                    <ul class="feed_footer_right">
+                        <li>
+                            <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
+                            <a href="feed.html" style="color:#515365;"><li class="hover-orange"><i class="fa fa-comments-o"></i> 74 comments</li></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}

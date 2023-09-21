@@ -3,6 +3,9 @@
 {% load static %}
 
 {% block content %}
+<div class="right_row">
+{% block post %}
+{% endblock post %}
   <div class="profile-info">
     <h2 class="profile-title">{{ user.username }}</h2>
     {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
@@ -19,4 +22,5 @@
       <a class="ancla100-form-a" href="{% url 'update_profile' %}">Update Profile</a>
     </div>
   </div>
+</div>
 {% endblock %}
