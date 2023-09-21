@@ -4,8 +4,40 @@
 
 {% block content %}
 <div class="right_row">
-{% block post %}
-{% endblock post %}
+  <div class="row border-radius">
+      <div class="feed">
+          <div class="feed_title">
+              <span><a href="{% url 'profile' %}" id="select_profile_menu"><b>Profile</b></a> | <a href="{% url 'update_profile' %}"><b>About</b></a> </span>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="publish">
+        <div class="row_title">
+            <span><i class="fa-regular fa-newspaper"></i> Crear nuevo post</span>
+
+        </div>
+        <form method="post">
+            <div class="publish_textarea">
+                {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
+                    <img class="border-radius-image" src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}" width="200">
+                {% else %}
+                    <img class="border-radius-image" src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic" width="200">
+                {% endif %}
+                <div class="publish-content">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+            </div>
+            <div class="publish_icons">
+                <ul>
+                    <li><i class="fa fa-camera"></i></li>
+                </ul>
+                <button type="submit">Publish</button>
+            </div>
+        </form>
+    </div>
+  </div>
   <div class="profile-info">
     <h2 class="profile-title">{{ user.username }}</h2>
     {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}

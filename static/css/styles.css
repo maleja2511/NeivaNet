@@ -381,6 +381,19 @@ button:hover {
 .feed_footer_right li i {font-size: 16px;padding-right: 5px}
 
 
-.suggestions_row {width: 25%;}
+.suggestions_row {width: 25%; }
 .loadmorefeed {text-align: center;background-color: #CCD1E0;width:50px;height:50px;border-radius: 100%;color: #246da2;line-height: 3}
+
+
+/* SETTINGS PAGE */
+.settings {width: 100%;border-bottom: 5px solid #ff5e3a;}
+.settings_title {padding: 20px;border-bottom: 1px solid #e6ecf5;letter-spacing: 1px;display: flex;align-items:center;}
+.settings_title h3 {font-size: .875rem;}
+.settings_content {width: 100%;}
+.settings_content ul {}
+.settings_content ul li {border-bottom: 1px solid #e6ecf5;display: flex;align-items:center;padding-bottom: 10px}
+.settings_content ul li p {font-size: 12px;color:#515365;width:76%;padding: 20px;}
+.settings_content ul li p b{font-size: 14px;color:#515365;}
+.settings_content ul li p b{font-size: 14px;color:#515365;}
+
 
