@@ -2,26 +2,71 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}NeivaNet{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css'%}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
 
     <header>
+        <div class="navbar">
+            <div class="navbar_logo">
+                <a href="{% url 'posts' %}"><i class="fa-solid fa-ethernet" style="color: #ffffff;"></i></a>
+            </div>
+            <div class="navbar_page">
+                <a href="{% url 'posts' %}" style="text-decoration:none; color: #ffffff; "><span> NEIVANET</span></a>
+            </div>
+            <div class="navbar_search">
+                <form method="" action="/">
+                    <input type="text" placeholder="Search people.." />
+                    <button><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+            <div class="navbar_icons">
+                <ul>
+                    <a href="" style="color:white">
+                        <li><i class="fa fa-globe"></i></li>
+                    </a>
+                    <a href="{% url 'login' %}" style="color:white">
+                        <li><i class="fas fa-sign-out-alt"></i></li>
+                    </a>
+                </ul>
+            </div>
+        </div>
         <!-- Aquí puedes poner una barra de navegación o cualquier otro elemento de cabecera -->
-        <a href="{% url 'profile' %}"><i class="fas fa-home"></i> Home</a>
-        <a href="{% url 'posts' %}"><i class="fas fa-newspaper"></i> Posts</a>
-        <a href="{% url 'login' %}"><i class="fas fa-sign-out-alt"></i> Log out</a>
     </header>
-    
+
 
     <main>
-        {% block content %}
-        <!-- El contenido específico de cada página irá aquí -->
-        {% endblock %}
+        <div class="all">
+            <div class="rowfixed"></div>
+            <div class="left_row">
+                <div class="left_row_profile">
+                    <div class="left_row_profile">
+                        <img id="profile_pic" src="images/user.jpg" /><br>
+                        <span>{{ user.username }}
+                        </span>
+                    </div>
+                </div>
+                <div class="rowmenu">
+                    <ul>
+                        <li><a href="{% url 'posts' %}" id="rowmenu-selected"><i class="fa fa-globe"></i>Newsfeed</a></li>
+                        <li><a href="{% url 'profile' %}"><i class="fa fa-user"></i>Profile</a></li>
+                        <li><a href="friends.html"><i class="fa fa-users"></i>Friends</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% block content %}
+            <!-- El contenido específico de cada página irá aquí -->
+            {% endblock %}
+        </div>
     </main>
 
     <footer>
@@ -29,4 +74,5 @@
     </footer>
 
 </body>
+
 </html>

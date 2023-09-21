@@ -286,3 +286,52 @@ button:hover {
     -moz-transition: all 0.4s;
     transition: all 0.4s;
   }
+
+  
+/* Nav */
+.navbar {height: 50px;width: 100%;background-color: #0d5588;color: white;display: flex;align-items:center;top:0px;}
+.navbar_logo {width: 10%;margin-left: 5%; text-align: center;     font-size: 40px;}
+.navbar_logo img {height: 100%;}
+.navbar_page {height: 50px;text-align: center;background-color: #0d5588}
+.navbar_page span {height: 100%;line-height: 3;font-size: .995rem;letter-spacing: 1px;text-transform: uppercase; font-weight: bold;}
+.navbar_search {height: 50px;text-align: center;width: 40%;display: inline-block;line-height: 3}
+.navbar_search input {padding: 10px;border:none;background-color: #ffffff;color: rgb(0, 0, 0);width:70%;}
+.navbar_search button {padding: 10px;border:none;background-color: #4f5266;color: white;margin-left:-20px;cursor: pointer;}
+.navbar_search button:hover {background-color: #303347;}
+.navbar_icons {height: 50px;text-align: center;width: 22%;display: inline-block;}
+.navbar_icons ul {height: 50px;}
+.navbar_icons ul li {height: 50px;display: inline-block;padding-left: 15px;padding-right: 15px;font-size: 19px;line-height: 2.5;cursor: pointer;}
+.navbar_icons ul li:hover {background-color: #303347;}
+#notification {font-size: 10px;color: #fff;background-color: #7C5AC2;padding: 0.6px 5px;border-radius: 100px}
+.navbar_user {height: 50px;width: auto;display: flex;align-items:center;}
+.navbar_user img {height: 35px;width: 35px;border-radius: 500px;border: 3px solid #ff5e3a;}
+#navbar_user_top {font-size: 12px;margin-left: 10px;padding-right: 10px}
+#navbar_user_top {font-size: 13px;}
+#navbar_user_top p{font-size: 10px;font-weight: 200;color: #9a9fbf;}
+.navbar_user i {color: #ff5e3a;}
+.navbar_menuicon {display: none;}
+
+
+/* CONTAIN */
+.all {width: 90%;margin: 30px auto;display: flex;font-family: "Segoe UI","Helvetica Neue",Arial,sans-serif;margin-top: 80px}
+
+.left_row {width: 25%;position: fixed;}
+.rowfixed {width: 25%;}
+.row {width: 90%;margin: 0px auto;display: block;background-color: white;color: #515365;margin-bottom: 20px;border: 1px solid #e6ecf5;}
+.row_title {padding: 10px;border-bottom: 1px solid #e6ecf5;letter-spacing: 1px;}
+.row_title span {padding: 20px;font-size: .775rem;font-weight: 700;}
+.row_title a {font-size: .675rem;font-weight: 700;color:#FF5E3A;}
+.row_title a:hover {text-decoration: underline;}
+.row_contain {display: flex;align-items:center;width: 90%;margin: 0px auto;padding-bottom: 10px;padding-top: 10px;margin: 0px auto;}
+.row_contain img {height: 40px;width:40px;border-radius: 200px;margin: 0px 10px;}
+.row_contain span {font-size: 11px;margin-left: 10px;width: 70%}
+.row_contain span b {font-size: 12px;color: #515365;cursor: pointer;}
+.row_contain span b:hover {color: #FF5E3A;}
+.row_contain button {padding: 10px;padding-right:15px;padding-left:15px;background-color: #38A9FF;border:none;color:white;border-radius: 5px;cursor: pointer;margin-left: 10px;}
+.row_contain button:hover {background-color: #47bcff;}
+.left_row_profile {width: 90%;margin: 0px auto;height: 150px;}
+#portada {width: 100%;height: 100px;position: absolute;}
+.left_row_profile {position: relative;display: flex;}
+.left_row_profile span {padding-top: 100px;padding-left: 10px}
+.left_row_profile span p {font-size: 12px}
+#profile_pic {width: 100px;height: 100px;border-radius: 200px;border: 3px solid #ff5e3a;margin-top: 40px;}
