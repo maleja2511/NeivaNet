@@ -34,6 +34,11 @@
                         {% endfor %}
                     </div>
                 </div>
+
+                <div id="image-preview" style="display: none;">
+                    <img src="" id="image-preview-src">
+                </div>
+
                 <div class="publish_icons">
                     <ul>
                         <li>
@@ -88,4 +93,22 @@
     </div>
     {% endfor %}
 </div>
+
+<script>
+    document.getElementById("id_image").addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById("image-preview-src").src = e.target.result;
+                document.getElementById("image-preview").style.display = "block";
+            }
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById("image-preview").style.display = "none";
+        }
+    });
+</script>
+
+
 {% endblock %}
