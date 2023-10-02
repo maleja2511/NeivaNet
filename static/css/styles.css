@@ -357,6 +357,7 @@ button:hover {
 .publish_icons ul li:hover {background-color: #0d5588;color: white;}
 .publish_icons button {border:none;cursor: pointer;padding: .8rem 2.1rem;font-size: .700rem;color: #fff;background-color: #0d5588;border-radius: .3rem;}
 .publish_icons button:hover {background-color: #246da2;}
+.border-radius-image {border-radius: 200px;}
 
 
 .feed {width: 100%;}
@@ -390,10 +391,19 @@ button:hover {
 .settings_title {padding: 20px;border-bottom: 1px solid #e6ecf5;letter-spacing: 1px;display: flex;align-items:center;}
 .settings_title h3 {font-size: .875rem;}
 .settings_content {width: 100%;}
-.settings_content ul {}
 .settings_content ul li {border-bottom: 1px solid #e6ecf5;display: flex;align-items:center;padding-bottom: 10px}
 .settings_content ul li p {font-size: 12px;color:#515365;width:76%;padding: 20px;}
 .settings_content ul li p b{font-size: 14px;color:#515365;}
 .settings_content ul li p b{font-size: 14px;color:#515365;}
 
+.formulario input {  border: none; border-bottom: 1px solid #000; margin: 15px; width: 60%;}
+.formulario textarea {width:95.2%;height:40px;border:none;padding:20px;}
+.formulario label {
+  font-family: sans-serif; /* Cambia "TuTipoDeLetraDeseado" al nombre de la fuente que deseas usar */
+  font-size: 16px; /* Puedes ajustar este valor según tus preferencias */
+  color: #333; /* Puedes ajustar este valor para cambiar el color del texto */
+  /* Agrega cualquier otro estilo que desees aplicar a las etiquetas aquí */
+}
+
+.ancla_button { cursor: pointer; padding: 0.8rem 2.1rem; font-size: 0.7rem; color: #fff; background-color: #0d5588; border-radius: 0.3rem; }
 
