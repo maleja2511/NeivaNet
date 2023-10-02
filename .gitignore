@@ -5,3 +5,8 @@ env/
 .vscode
 
 db.sqlite3
+
+_pycache_/
+*.pyc
+*.pyo
+*.pyd
