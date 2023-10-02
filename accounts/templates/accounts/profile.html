@@ -12,17 +12,17 @@
       </div>
   </div>
   <div class="profile-info">
-    <h2 class="profile-title">{{ user.username }}</h2>
-    {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
-      <img src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}" width="200">
+    <h2 class="profile-title">{{ profile_user.username }}</h2>
+    {% if profile_user.userprofile and profile_user.userprofile.profile_picture and profile_user.userprofile.profile_picture.url != 'default.jpg' %}
+      <img src="{{ profile_user.userprofile.profile_picture.url }}" alt="{{ profile_user.username }}" width="200">
     {% else %}
       <img src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic" width="200">
     {% endif %}
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>First name:</strong> {{ user.first_name }}</p>
-    <p><strong>Last name:</strong> {{ user.last_name }}</p>
-    <p><strong>Date of Birth:</strong> {{ user.userprofile.date_of_birth }}</p>
+    <p><strong>Username:</strong> {{ profile_user.username }}</p>
+    <p><strong>Email:</strong> {{ profile_user.email }}</p>
+    <p><strong>First name:</strong> {{ profile_user.first_name }}</p>
+    <p><strong>Last name:</strong> {{ profile_user.last_name }}</p>
+    <p><strong>Date of Birth:</strong> {{ profile_user.userprofile.date_of_birth }}</p>
     <div class="form-footer" style="margin-top: 10px;">
       <a class="ancla_button" href="{% url 'update_profile' %}">Update Profile</a>
     </div>

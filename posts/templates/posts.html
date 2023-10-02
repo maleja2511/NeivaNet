@@ -22,7 +22,7 @@
                     <div class="publish-content">
                         {% csrf_token %}
                         {% for field in form %}
-                        <div class="formulario">
+                        <div class="formulario-posts">
                             {{ field.label_tag }}
                             {{ field }}
                             {% if field.errors %}
@@ -47,12 +47,12 @@
         <div class="feed">
             <div class="post">
                 <div class="feed_title">
-                    {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
-                        <img src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}" width="200">
-                    {% else %}
-                        <img src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic" width="200">
-                    {% endif %}
-                    <span><b><a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></b> <br><p>{{ post.date_posted }}</p></span>
+                    {% if post.author.userprofile and post.author.userprofile.profile_picture and post.author.userprofile.profile_picture.url != 'default.jpg' %}
+                    <img src="{{ post.author.userprofile.profile_picture.url }}" alt="{{ post.author.username }}" width="200">
+                {% else %}
+                    <img src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic" width="200">
+                {% endif %}
+                <span><b><a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></b> <br><p>{{ post.date_posted }}</p></span>                       
                 </div>
                 <div class="feed_content">
                     <div class="feed_content_image">

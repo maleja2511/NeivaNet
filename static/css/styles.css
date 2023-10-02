@@ -348,7 +348,11 @@ button:hover {
 
 .right_row {width: 49%;margin: 0 auto;}
 .publish {width: 100%;border-top: 5px solid #0d5588;box-shadow: 3px 4px 5px rgba(209, 209, 209, 0.5);}
-.publish_textarea {width: 100%;display: flex;align-items:center;}
+.publish_textarea {
+  width: 100%;
+  display: flex;
+  align-items:center;
+}
 .publish_textarea img {width:40px;height:40px;margin: 20px;}
 .publish_textarea textarea {width:95.2%;height:40px;border:none;padding:20px;}
 .publish_icons {border-top: 1px solid #e6ecf5;width: 100%;margin-top:20px;display: flex;align-items:center;}
@@ -396,13 +400,44 @@ button:hover {
 .settings_content ul li p b{font-size: 14px;color:#515365;}
 .settings_content ul li p b{font-size: 14px;color:#515365;}
 
-.formulario input {  border: none; border-bottom: 1px solid #000; margin: 15px; width: 60%;}
-.formulario textarea {width:95.2%;height:40px;border:none;padding:20px;}
-.formulario label {
-  font-family: sans-serif; /* Cambia "TuTipoDeLetraDeseado" al nombre de la fuente que deseas usar */
-  font-size: 16px; /* Puedes ajustar este valor según tus preferencias */
-  color: #333; /* Puedes ajustar este valor para cambiar el color del texto */
-  /* Agrega cualquier otro estilo que desees aplicar a las etiquetas aquí */
+/* Contenido del formulario */
+.publish-content {
+  flex: 1;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+/* Elementos del formulario */
+.formulario-posts {
+  margin-bottom: 20px;
+}
+
+.formulario-posts label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.formulario-posts input,
+.formulario-posts textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.formulario-posts textarea {
+  height: 100px;
+}
+
+/* Mensajes de error */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .ancla_button { cursor: pointer; padding: 0.8rem 2.1rem; font-size: 0.7rem; color: #fff; background-color: #0d5588; border-radius: 0.3rem; }
