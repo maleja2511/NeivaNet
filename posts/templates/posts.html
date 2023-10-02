@@ -12,7 +12,7 @@
                 <span><i class="fa-regular fa-newspaper"></i> Crear nuevo post</span>
 
             </div>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div class="publish_textarea">
                     {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
                         <img class="border-radius-image" src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}" width="200">
@@ -22,22 +22,29 @@
                     <div class="publish-content">
                         {% csrf_token %}
                         {% for field in form %}
-                        <div class="formulario-posts">
-                            {{ field.label_tag }}
-                            {{ field }}
-                            {% if field.errors %}
-                                <div class="error">{{ field.errors }}</div>
+                            {% if field.name != "image" %}  {# Excluir el campo image de la renderización automática #}
+                                <div class="formulario-posts">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="error">{{ field.errors }}</div>
+                                    {% endif %}
+                                </div>
                             {% endif %}
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="publish_icons">
                     <ul>
-                        <li><i class="fa fa-camera"></i></li>
+                        <li>
+                            <label for="id_image" style="cursor: pointer;">
+                                <i class="fa fa-camera"></i>
+                            </label>
+                            <input type="file" name="image" id="id_image" style="display: none;">
+                        </li>                        
                     </ul>
                     <button type="submit">Publish</button>
-                </div>
+                </div>                
             </form>
         </div>
     </div>
@@ -47,7 +54,7 @@
         <div class="feed">
             <div class="post">
                 <div class="feed_title">
-                    {% if post.author.userprofile and post.author.userprofile.profile_picture and post.author.userprofile.profile_picture.url != 'default.jpg' %}
+                {% if post.author.userprofile and post.author.userprofile.profile_picture and post.author.userprofile.profile_picture.url != 'default.jpg' %}
                     <img src="{{ post.author.userprofile.profile_picture.url }}" alt="{{ post.author.username }}" width="200">
                 {% else %}
                     <img src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic" width="200">
@@ -57,7 +64,9 @@
                 <div class="feed_content">
                     <div class="feed_content_image">
                         <h2>{{ post.title }}</h2>
-                        <a href="feed.html"><img src="images/photo-1.jpg" alt="" /></a>
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+                        {% endif %}
                         <p>{{ post.content }}</p>
                     </div>
                     
