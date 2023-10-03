@@ -22,7 +22,7 @@
                     <div class="publish-content">
                         {% csrf_token %}
                         {% for field in form %}
-                            {% if field.name != "image" %}  {# Excluir el campo image de la renderización automática #}
+                            {% if field.name != "image" %}
                                 <div class="formulario-posts">
                                     {{ field.label_tag }}
                                     {{ field }}
@@ -109,6 +109,4 @@
         }
     });
 </script>
-
-
 {% endblock %}

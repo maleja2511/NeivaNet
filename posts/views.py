@@ -3,7 +3,7 @@ from .models import Post
 from .forms import PostForm
 
 def posts(request):
-    all_posts = Post.objects.all()
+    all_posts = Post.objects.all().order_by('-date_posted')
 
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
