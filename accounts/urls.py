@@ -10,6 +10,7 @@ from django.contrib.auth.views import (
 )
 from .views import RegisterView, UserProfileView
 from .views import update_profile
+from .views import CustomPasswordResetView
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
@@ -19,13 +20,9 @@ urlpatterns = [
     path("update_profile/", update_profile, name="update_profile"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path(
-        "password_reset/",
-        PasswordResetView.as_view(
-            template_name="accounts/registration/password_reset_form.html",
-            email_template_name="accounts/registration/password_reset_email.html",
-            subject_template_name="accounts/registration/password_reset_subject.txt",
-        ),
-        name="password_reset",
+    "password_reset/<str:from_where>/",
+    CustomPasswordResetView.as_view(),
+    name="password_reset",
     ),
     path(
         "password_reset/done/",

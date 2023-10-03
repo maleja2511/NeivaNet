@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="right_row">
   <div class="row border-radius">
@@ -59,7 +58,7 @@
             <div class="form-group form-index">
               {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
             </div>
-          
+
             {% if form.errors %}
             <ul class="errorlist">
               {% for error in form.errors %}
@@ -67,16 +66,19 @@
               {% endfor %}
             </ul>
             {% endif %}
+
             <div class="publish_icons" style="border: none;">
-              <button type="submit" style="margin: 0 auto;" >Update</button>
-              <button style="text-align: center;"><a href="{% url 'profile' %}"></a>Cancelar</button>
+              <button type="submit" style="margin: 0 auto;">Update</button>
+              <button style="text-align: center; margin: 0 auto;"><a href="{% url 'profile' %}"></a>Cancel</button>
+            </div>
+
+            <div>
+              <a href="{% url 'password_reset' 'profile' %}" class="update-password-button">Update Password</a>
             </div>
             
           </form>
         </div>
     </div>
 </div>
-
-
 </div>
 {% endblock %}
