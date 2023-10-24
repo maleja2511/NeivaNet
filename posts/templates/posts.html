@@ -38,7 +38,7 @@
                 <div id="image-preview" style="display: none;">
                     <img src="" id="image-preview-src">
                 </div>
-
+                
                 <div class="publish_icons">
                     <ul>
                         <li>
@@ -48,7 +48,7 @@
                             <input type="file" name="image" id="id_image" style="display: none;">
                         </li>                        
                     </ul>
-                    <button type="submit">Publish</button>
+                    <button type="submit" name="submit_post">Publish</button>
                 </div>                
             </form>
         </div>
@@ -68,12 +68,21 @@
                 </div>
                 <div class="feed_content">
                     <div class="feed_content_image">
-                        <h2>{{ post.title }}</h2>
+                        <h2>{{ post.title }} <span class="post-category">{{ post.category.name }}</span></h2>
                         {% if post.image %}
                             <img src="{{ post.image.url }}" alt="{{ post.title }}" />
                         {% endif %}
                         <p>{{ post.content }}</p>
                     </div>
+
+                    <div id="commentSection_{{ post.id }}" class="commentSection">
+                        <form method="post">
+                            {% csrf_token %}
+                            <textarea name="content" class="autoExpand" rows="1" placeholder="Add a comment..."></textarea>
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            <button type="submit" name="submit_comment">Add Comment</button>
+                        </form>
+                    </div>                    
                     
                 </div>
                 <div class="feed_footer">
@@ -84,11 +93,21 @@
                     <ul class="feed_footer_right">
                         <li>
                             <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
-                            <a href="feed.html" style="color:#515365;"><li class="hover-orange"><i class="fa fa-comments-o"></i> 74 comments</li></a>
+                            <a href="#commentSection_{{ post.id }}" style="color:#515365;"><li> <i class="fa-regular fa-comment"></i>{{ post.comments.count }} comments</li></a>
                         </li>
                     </ul>
                 </div>
-            </div>
+
+                <div class="existing-comments">
+                    {% for comment in post.comments.all %}
+                        <div class="comment">
+                            <b>{{ comment.user.username }}</b>: {{ comment.content }}
+                        </div>
+                    {% endfor %}
+                </div>
+                       
+
+            </div>  
         </div>
     </div>
     {% endfor %}
@@ -108,5 +127,13 @@
             document.getElementById("image-preview").style.display = "none";
         }
     });
+
+    document.addEventListener('input', function (e) {
+        if (e.target.tagName.toLowerCase() === 'textarea' && e.target.classList.contains('autoExpand')) {
+            e.target.style.height = 'auto';
+            e.target.style.height = e.target.scrollHeight + 'px';
+        }
+    }, false);    
+
 </script>
 {% endblock %}
