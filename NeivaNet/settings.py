@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dbNeivaNet',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
+        'USER': 'neivanet',
+        'PASSWORD': 'neivanet',
         'HOST': 'localhost',
         'PORT': '5432',
     }
