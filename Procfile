@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn NeivaNet.wsgi
+web: gunicorn NeivaNet.wsgi --log-file -
