@@ -83,7 +83,7 @@ DATABASES = {
         'USER': 'neivanet',
         'PASSWORD': 'neivanet',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '0.0.0.0',
     }
 }
 
@@ -143,3 +143,6 @@ EMAIL_PORT = 587  # Usualmente el puerto 587 es para TLS
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'neivanet34@gmail.com'
 EMAIL_HOST_PASSWORD = 'eroigdwgpfudmxrn'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
