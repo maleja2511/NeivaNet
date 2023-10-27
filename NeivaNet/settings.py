@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'NeivaNet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbNeivaNet',
-        'USER': 'vlbifbha',
-        'PASSWORD': 'CXYLLhG4gnh01S2ZrxHFr_cqjSGnZI6D',
-        'HOST': 'localhost',
+        'NAME': 'dbneivanet',
+        'USER': 'mairadmin',
+        'PASSWORD': 'u4HoD766nlAREPAfTd514D4srVCtnR34',
+        'HOST': 'dpg-cktihndk4k9c73bta8vg-a.ohio-postgres.render.com',
         'PORT': '5432',
     }
 }
