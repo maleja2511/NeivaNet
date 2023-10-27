@@ -10,7 +10,6 @@
         <div class="publish">
             <div class="row_title">
                 <span><i class="fa-regular fa-newspaper"></i> Crear nuevo post</span>
-
             </div>
             <form method="post" enctype="multipart/form-data">
                 <div class="publish_textarea">
@@ -87,7 +86,13 @@
                 </div>
                 <div class="feed_footer">
                     <ul class="feed_footer_left">
-                        <li class="hover-orange selected-orange"><i class="fa fa-heart"></i> 22k</li>
+                        <li class="{% if request.user in post.likes.all %}hover-orange selected-orange{% else %}hover-orange{% endif %}">
+                            <a href="#" class="like-link" data-postid="{{ post.id }}" style="color: #C70039; text-decoration: none;">
+                                <i class="fa fa-heart"></i> <span class="like-count">{{ post.likes.count }}</span>
+                            </a>                            
+                         
+                        </li>                                             
+                    
                         <li><span><b>Jimmy, Andrea</b> and 47 more liked this</span></li>
                     </ul>
                     <ul class="feed_footer_right">
@@ -134,6 +139,31 @@
             e.target.style.height = e.target.scrollHeight + 'px';
         }
     }, false);    
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const likeLinks = document.querySelectorAll(".like-link");
+        likeLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                const postID = e.currentTarget.dataset.postid;
+                fetch(`/toggle_like/${postID}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const likesCount = data.likes_count;
+                        const isLiked = data.is_liked;
+                        const heartElement = link.querySelector(".fa-heart");
+                        if (isLiked) {
+                            heartElement.classList.add("selected-orange");
+                        } else {
+                            heartElement.classList.remove("selected-orange");
+                        }
+                        const likeCountElement = link.querySelector(".like-count");
+                        likeCountElement.textContent = likesCount;
+
+                    });
+            });
+        });
+    });    
 
 </script>
 {% endblock %}

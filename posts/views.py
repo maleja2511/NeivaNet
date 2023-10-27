@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
-from posts.models import Post
+from posts.models import Post, Like
 from .forms import PostForm, CommentForm
+from django.http import JsonResponse
 
 def posts(request):
     all_posts = Post.objects.all().order_by('-date_posted')
@@ -30,3 +31,14 @@ def posts(request):
         'comment_form': comment_form
     }
     return render(request, 'posts.html', context)
+
+def toggle_like(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    like, created = Like.objects.get_or_create(post=post, user=request.user)
+    if not created:
+        like.delete()
+        is_liked = False
+    else:
+        is_liked = True
+
+    return JsonResponse({"is_liked": is_liked, "likes_count": post.likes.count()})
