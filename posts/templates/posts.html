@@ -87,10 +87,10 @@
                 <div class="feed_footer">
                     <ul class="feed_footer_left">
                         <li class="{% if request.user in post.likes.all %}hover-orange selected-orange{% else %}hover-orange{% endif %}">
-                            <a href="#" class="like-link" data-postid="{{ post.id }}" style="color: #C70039; text-decoration: none;">
+                            <a href="#" class="like-link" data-postid="{{ post.id }}" 
+                                style="color: {% if post.likes.count > 0 %}#f0566a{% else %}#246da2{% endif %}; text-decoration: none;">
                                 <i class="fa fa-heart"></i> <span class="like-count">{{ post.likes.count }}</span>
-                            </a>                            
-                         
+                            </a>
                         </li>                                             
                     
                         <li><span><b>Jimmy, Andrea</b> and 47 more liked this</span></li>
@@ -159,6 +159,12 @@
                         }
                         const likeCountElement = link.querySelector(".like-count");
                         likeCountElement.textContent = likesCount;
+
+                        if (likesCount > 0) {
+                            link.style.color = "#f0566a";  // Rojo oscuro
+                        } else {
+                            link.style.color = "#246da2";  // Azul claro
+                        }
 
                     });
             });

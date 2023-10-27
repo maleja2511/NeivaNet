@@ -873,7 +873,7 @@ button:hover {
 .commentSection button {
   margin-top: 0;
   padding: 8px 20px; 
-  background-color: #246da2;
+  background-color: #1a517a;
   color: white;
   border: none;
   border-radius: 25px;
@@ -882,7 +882,7 @@ button:hover {
 }
 
 .commentSection button:hover {
-  background-color: #1a517a;
+  background-color: #246da2;
 }
 
 .existing-comments {
