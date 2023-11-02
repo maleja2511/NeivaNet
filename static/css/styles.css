@@ -918,3 +918,24 @@ button:hover {
   padding: 2px 6px;
   border-radius: 3px;
 }
+
+.error-message {
+  color: red;
+  margin-bottom: 1em;   
+  list-style-type: none;  
+  padding: 10px;         
+  background-color: #ffe6e6; 
+  border-radius: 10px;    
+  border: 1px solid red; 
+}
+
+.form-group-row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group-row input[type="checkbox"] {
+  width: auto;  /* Restablece el ancho al comportamiento por defecto de un checkbox */
+  margin-right: 10px;  /* Añade un pequeño margen a la derecha para separarlo del label */
+}

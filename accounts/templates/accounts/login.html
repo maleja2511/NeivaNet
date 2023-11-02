@@ -24,6 +24,7 @@
         >
           <div class="wrap-login100">
             <form method="post" class="login100-form validate-form">
+
               {% csrf_token %}
 
               <span class="login100-form-logo">
@@ -40,7 +41,7 @@
                 {{ form.password.label_tag }} {{ form.password }}
               </div>
 
-              <div class="form-group">
+              <div class="form-group form-group-row">
                 <input
                   type="checkbox"
                   name="login_as_admin"
@@ -51,9 +52,23 @@
                 >
               </div>
 
-              {% if form.errors %}
-              <p>Your form has errors: {{ form.errors }}</p>
-              {% endif %}
+              {% if form.errors or messages %}
+              <div>
+                  {% for error in form.non_field_errors %}
+                  <p class="error-message">{{ error }}</p>
+                  {% endfor %}
+              
+                  {% for field in form %}
+                  {% for error in field.errors %}
+                  <p class="error-message">{{ error }}</p>
+                  {% endfor %}
+                  {% endfor %}
+              
+                  {% for message in messages %}
+                  <p class="error-message">{{ message }}</p>
+                  {% endfor %}
+              </div>
+              {% endif %}                                 
 
               <div class="container-login100-form-btn">
                 <button type="submit" class="login100-form-btn">Login</button>

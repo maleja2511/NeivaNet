@@ -2,8 +2,6 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView
 from .forms import RegisterForm
 from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import UserProfileForm
 from .models import UserProfile
@@ -11,23 +9,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth.views import LoginView as AuthLoginView
 
-class RegisterView(CreateView):
-    form_class = RegisterForm
-    template_name = 'accounts/register.html'
-    success_url = reverse_lazy('login')
-    
-@method_decorator(login_required, name='dispatch')
-class UserProfileView(TemplateView):
-    template_name = 'accounts/profile.html'
-
-    def dispatch(self, *args, **kwargs):
-        response = super().dispatch(*args, **kwargs)
+class CustomLoginView(AuthLoginView):
+    def form_valid(self, form):
+        # Llama al comportamiento original de form_valid
+        response = super().form_valid(form)
         
         # Verifica si el usuario seleccionó "login_as_admin"
         login_as_admin = self.request.POST.get('login_as_admin', False)
-        
-        # Si el usuario seleccionó login_as_admin
+
         if login_as_admin:
             if self.request.user.is_staff:  # verifica si el usuario tiene permisos de administrador
                 return redirect(reverse('admin:index'))  # Redirige a la consola de administración
@@ -36,6 +27,14 @@ class UserProfileView(TemplateView):
                 messages.error(self.request, "No puedes iniciar sesión como administrador.")
                 return redirect(reverse('login'))
         return response
+
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = 'accounts/register.html'
+    success_url = reverse_lazy('login')
+    
+class UserProfileView(TemplateView):
+    template_name = 'accounts/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
