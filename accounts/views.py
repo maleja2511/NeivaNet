@@ -53,8 +53,6 @@ def update_profile(request):
     return render(request, 'accounts/update_profile.html', {'form': form})
 
 # En la vista de restablecimiento de contraseña
-# En la vista de restablecimiento de contraseña
-# En la vista de restablecimiento de contraseña
 class CustomPasswordResetView(PasswordResetView):
     template_name = "accounts/registration/password_reset_form.html"
     email_template_name = "accounts/registration/password_reset_email.html"
@@ -73,7 +71,6 @@ class CustomPasswordResetView(PasswordResetView):
 
         print("desde donde", self.request.session['from_where'])
         return super().dispatch(*args, **kwargs)
-
 
 
 # En la vista que maneja la finalización del restablecimiento de la contraseña

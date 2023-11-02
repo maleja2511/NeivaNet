@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'NeivaNet.middlewares.LoginRequiredMiddleware', 
 ]
 
 ROOT_URLCONF = 'NeivaNet.urls'
@@ -130,7 +131,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/profile/'
 
 MEDIA_URL = '/media/'

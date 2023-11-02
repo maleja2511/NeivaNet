@@ -18,7 +18,7 @@ urlpatterns = [
     path("profile/", UserProfileView.as_view(), name="profile"),
     path("profile/<int:user_id>/", UserProfileView.as_view(), name="profile"),
     path("update_profile/", update_profile, name="update_profile"),
-    path("logout/", LogoutView.as_view(), name="logout"),
+    path("logout/", LogoutView.as_view(next_page='/'), name="logout"),
     path(
     "password_reset/<str:from_where>/",
     CustomPasswordResetView.as_view(),
