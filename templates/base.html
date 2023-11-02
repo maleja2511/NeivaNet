@@ -24,10 +24,10 @@
                 <a href="{% url 'posts' %}" style="text-decoration:none; color: #ffffff; "><span> NEIVANET</span></a>
             </div>
             <div class="navbar_search">
-                <form method="" action="/">
-                    <input type="text" placeholder="Search people.." />
+                <form method="get" action="{% url 'posts' %}">
+                    <input type="text" name="category" placeholder="Search posts by category.." />
                     <button><i class="fa fa-search"></i></button>
-                </form>
+                </form>                
             </div>
             <div class="navbar_icons">
                 <ul>
@@ -40,7 +40,6 @@
                 </ul>
             </div>
         </div>
-        <!-- Aquí puedes poner una barra de navegación o cualquier otro elemento de cabecera -->
     </header>
 
 
@@ -49,7 +48,7 @@
             <div class="rowfixed"></div>
                 <div class="left_row">
                     <div class="left_row_profile">
-                        {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
+                        {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
                             <img id="profile_pic" src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}">
                         {% else %}
                             <img id="profile_pic" src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic">

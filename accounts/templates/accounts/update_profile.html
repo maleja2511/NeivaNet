@@ -18,7 +18,7 @@
               <label for="id_profile_picture">Profile picture:</label>
               <br />
               
-              {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.jpg' %}
+              {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
               <img
                 src="{{ user.userprofile.profile_picture.url }}"
                 alt="Current Profile Pic"

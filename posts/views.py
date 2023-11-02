@@ -4,7 +4,12 @@ from .forms import PostForm, CommentForm
 from django.http import JsonResponse
 
 def posts(request):
-    all_posts = Post.objects.all().order_by('-date_posted')
+    category_query = request.GET.get('category')
+    
+    if category_query:
+        all_posts = Post.objects.filter(category__name__icontains=category_query).order_by('-date_posted')
+    else:
+        all_posts = Post.objects.all().order_by('-date_posted')
 
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -28,7 +33,8 @@ def posts(request):
     context = {
         'posts': all_posts,
         'form': form,
-        'comment_form': comment_form
+        'comment_form': comment_form,
+        'category_query': category_query
     }
     return render(request, 'posts.html', context)
 
