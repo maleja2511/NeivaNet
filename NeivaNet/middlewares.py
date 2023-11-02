@@ -8,7 +8,16 @@ class LoginRequiredMiddleware:
     def __call__(self, request):
         if not request.user.is_authenticated:
             # Aquí puedes excluir algunas URL públicas si es necesario
-            if request.path not in ['/', '/register/']:
+            public_urls = [
+                '/', 
+                '/register/', 
+                '/password_reset/login/',
+                '/password_reset/profile/',
+                '/password_reset/done/', 
+                '/reset/',  # Esta ruta es un poco complicada porque tiene parámetros dinámicos
+                '/reset/done/'
+            ]
+            if not any([request.path.startswith(url) for url in public_urls]):
                 return redirect(settings.LOGIN_URL)
         response = self.get_response(request)
         return response

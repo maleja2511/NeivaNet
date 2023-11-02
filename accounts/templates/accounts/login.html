@@ -2,64 +2,77 @@
 
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}NeivaNet{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>{% block title %}NeivaNet{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css'%}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+  <body>
+    <main>
+      <div class="limiter">
+        <div
+          class="container-login100"
+          style="background-image: url('/static/img/bg-01.jpg')"
+        >
+          <div class="wrap-login100">
+            <form method="post" class="login100-form validate-form">
+              {% csrf_token %}
 
-<body>
-  <main>
-    <div class="limiter">
-      <div class="container-login100" style="background-image: url('/static/img/bg-01.jpg');">
-        <div class="wrap-login100">
+              <span class="login100-form-logo">
+                <i class="fa-solid fa-ethernet icon"></i>
+              </span>
 
-          <form method="post" class="login100-form validate-form">
-            {% csrf_token %}
+              <span class="login100-form-title"> Login </span>
 
-            <span class="login100-form-logo">
-              <i class="fa-solid fa-ethernet icon"></i>
-            </span>
+              <div class="form-group">
+                {{ form.username.label_tag }} {{ form.username }}
+              </div>
 
-            <span class="login100-form-title">
-              Login
-            </span>
+              <div class="form-group">
+                {{ form.password.label_tag }} {{ form.password }}
+              </div>
 
-            <div class="form-group">
-              {{ form.username.label_tag }} {{ form.username }}
+              <div class="form-group">
+                <input
+                  type="checkbox"
+                  name="login_as_admin"
+                  id="login_as_admin"
+                />
+                <label for="login_as_admin"
+                  >Iniciar sesión como administrador</label
+                >
+              </div>
+
+              {% if form.errors %}
+              <p>Your form has errors: {{ form.errors }}</p>
+              {% endif %}
+
+              <div class="container-login100-form-btn">
+                <button type="submit" class="login100-form-btn">Login</button>
+              </div>
+            </form>
+
+            <div class="form-footer">
+              <a href="{% url 'register' %}"
+                >Don't have an account? Register here</a
+              >
             </div>
-
-            <div class="form-group">
-              {{ form.password.label_tag }} {{ form.password }}
+            <div class="form-footer">
+              <a href=" {% url 'password_reset' 'login' %} "
+                >Forgot Password?</a
+              >
             </div>
-
-            {% if form.errors %}
-            <p>Your form has errors: {{ form.errors }}</p>
-            {% endif %}
-
-            <div class="container-login100-form-btn">
-              <button type="submit" class="login100-form-btn">
-                Login
-              </button>
-            </div>
-
-          </form>
-
-          <div class="form-footer">
-            <a href="{% url 'register' %}">Don't have an account? Register here</a>
           </div>
-          <div class="form-footer">
-            <a href=" {% url 'password_reset' 'login' %} ">Forgot Password?</a>
-          </div>
-
         </div>
       </div>
-    </div>
-  </main>
-</body>
-
+    </main>
+  </body>
 </html>

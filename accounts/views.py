@@ -9,6 +9,8 @@ from .forms import UserProfileForm
 from .models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
+from django.contrib import messages
+from django.urls import reverse
 
 class RegisterView(CreateView):
     form_class = RegisterForm
@@ -18,6 +20,22 @@ class RegisterView(CreateView):
 @method_decorator(login_required, name='dispatch')
 class UserProfileView(TemplateView):
     template_name = 'accounts/profile.html'
+
+    def dispatch(self, *args, **kwargs):
+        response = super().dispatch(*args, **kwargs)
+        
+        # Verifica si el usuario seleccionó "login_as_admin"
+        login_as_admin = self.request.POST.get('login_as_admin', False)
+        
+        # Si el usuario seleccionó login_as_admin
+        if login_as_admin:
+            if self.request.user.is_staff:  # verifica si el usuario tiene permisos de administrador
+                return redirect(reverse('admin:index'))  # Redirige a la consola de administración
+            else:
+                # Si no tiene permisos de administrador
+                messages.error(self.request, "No puedes iniciar sesión como administrador.")
+                return redirect(reverse('login'))
+        return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
