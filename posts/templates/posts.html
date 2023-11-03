@@ -92,10 +92,10 @@
                 </div>
                 <div class="feed_footer">
                     <ul class="feed_footer_left">
-                        <li class="{% if request.user in post.likes.all %}hover-orange selected-orange{% else %}hover-orange{% endif %}">
+                        <li class="{% if post.is_liked %}hover-orange selected-orange{% else %}hover-orange{% endif %}">
                             <a href="#" class="like-link" data-postid="{{ post.id }}" 
-                                style="color: {% if post.likes.count > 0 %}#f0566a{% else %}#246da2{% endif %}; text-decoration: none;">
-                                <i class="fa fa-heart"></i> <span class="like-count">{{ post.likes.count }}</span>
+                            style="color: {% if post.is_liked %}#f0566a{% else %}#246da2{% endif %}; text-decoration: none;">
+                            <i class="fa fa-heart"></i> <span class="like-count">{{ post.likes.count }}</span>
                             </a>
                         </li>                                             
                     
@@ -156,26 +156,28 @@
                     .then(response => response.json())
                     .then(data => {
                         const likesCount = data.likes_count;
-                        const isLiked = data.is_liked;
+                        const isLiked = data.is_liked; // Esta variable indica si el usuario actual dio "like".
                         const heartElement = link.querySelector(".fa-heart");
+                        const likeCountElement = link.querySelector(".like-count");
+    
+                        // Actualizamos el número de "likes".
+                        likeCountElement.textContent = likesCount;
+    
+                        // Cambiamos el color del corazón según si el usuario actual ha dado "like".
                         if (isLiked) {
+                            heartElement.style.color = "#f0566a";
+                            likeCountElement.style.color = "#f0566a";
                             heartElement.classList.add("selected-orange");
                         } else {
+                            heartElement.style.color = "#246da2";
+                            likeCountElement.style.color = "#246da2";
                             heartElement.classList.remove("selected-orange");
                         }
-                        const likeCountElement = link.querySelector(".like-count");
-                        likeCountElement.textContent = likesCount;
-
-                        if (likesCount > 0) {
-                            link.style.color = "#f0566a";  // Rojo oscuro
-                        } else {
-                            link.style.color = "#246da2";  // Azul claro
-                        }
-
                     });
             });
         });
-    });    
+    });
+    
 
 </script>
 {% endblock %}

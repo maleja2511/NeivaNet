@@ -2,14 +2,22 @@ from django.shortcuts import redirect, render
 from posts.models import Post, Like
 from .forms import PostForm, CommentForm
 from django.http import JsonResponse
+from django.db.models import Prefetch
 
 def posts(request):
     category_query = request.GET.get('category')
     
+    # Preparar la consulta prefetched de likes
+    likes_prefetch = Prefetch('likes', queryset=Like.objects.filter(user=request.user), to_attr='current_user_like')
+
     if category_query:
-        all_posts = Post.objects.filter(category__name__icontains=category_query).order_by('-date_posted')
+        all_posts = Post.objects.filter(category__name__icontains=category_query).prefetch_related(likes_prefetch).order_by('-date_posted')
     else:
-        all_posts = Post.objects.all().order_by('-date_posted')
+        all_posts = Post.objects.prefetch_related(likes_prefetch).order_by('-date_posted')
+
+    # Añadir la propiedad is_liked a cada post
+    for post in all_posts:
+        post.is_liked = bool(post.current_user_like)
 
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
