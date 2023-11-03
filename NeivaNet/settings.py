@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'posts',
+    'colorfield',
 ]
+
+X_FRAME_OPTIONS  =  'MISMOORIGIN' 
+SILENCED_SYSTEM_CHECKS  =  [ 'seguridad.W019' ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
