@@ -19,5 +19,5 @@ platformdirs==3.10.0
 pymongo==4.5.0
 virtualenv==20.24.4
 Werkzeug==2.3.7
-python==3.9
+python==3.9.18
 
