@@ -300,12 +300,12 @@ button:hover {
   color: white;
   display: flex;
   align-items: center;
+  justify-content: space-around;
   top: 0px;
   position: fixed;
 }
 .navbar_logo {
   width: 10%;
-  margin-left: 5%;
   text-align: center;
   font-size: 40px;
 }
@@ -326,27 +326,36 @@ button:hover {
   font-weight: bold;
 }
 .navbar_search {
-  height: 50px;
   text-align: center;
   width: 40%;
   display: inline-block;
-  line-height: 3;
 }
+
+.search-wrapper {
+  display: flex;
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  align-items: center;
+  overflow: hidden;
+}
+
 .navbar_search input {
   padding: 10px;
   border: none;
-  background-color: #ffffff;
+  flex-grow: 1;
   color: rgb(0, 0, 0);
-  width: 70%;
+  border-right: 1px solid #ccc; 
 }
+
 .navbar_search button {
   padding: 10px;
   border: none;
   background-color: #4f5266;
   color: white;
-  margin-left: -20px;
   cursor: pointer;
+  margin-left: 0;
 }
+
 .navbar_search button:hover {
   background-color: #303347;
 }
