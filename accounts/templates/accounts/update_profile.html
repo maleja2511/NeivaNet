@@ -44,6 +44,7 @@
                 name="first_name"
                 id="id_first_name"
                 value="{{ user.first_name }}"
+                maxlength="20"
               />
             </div>
             <div class="form-group form-index">
@@ -53,6 +54,7 @@
                 name="last_name"
                 id="id_last_name"
                 value="{{ user.last_name }}"
+                maxlength="20"
               />
             </div>
             <div class="form-group form-index">
@@ -73,7 +75,7 @@
             </div>
 
             <div>
-              <a href="{% url 'password_reset' 'profile' %}" class="update-password-button">Update Password</a>
+              <a href="{% url 'password_reset' 'profile' %}" class="update-password-button">Change Password</a>
             </div>
             
           </form>
