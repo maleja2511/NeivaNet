@@ -52,9 +52,9 @@
                 <div class="left_row">
                     <div class="left_row_profile">
                         {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
-                            <img id="profile_pic" src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}">
+                            <img id="profile_pic" src="{{ profile_user.userprofile.profile_picture.url }}" onerror="this.onerror=null;this.src='{% static 'default.png' %}';" alt="{{ profile_user.username }}">
                         {% else %}
-                            <img id="profile_pic" src="{% static 'default_profile_pic.png' %}" alt="Default Profile Pic">
+                            <img id="profile_pic" src="{% static 'default.png' %}" alt="Default Profile Pic">
                         {% endif %} 
                         <span>{{ user.username }}</span>
                     </div>
