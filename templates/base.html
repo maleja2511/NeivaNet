@@ -25,10 +25,13 @@
             </div>
             <div class="navbar_search">
                 <form method="get" action="{% url 'posts' %}">
-                    <input type="text" name="category" placeholder="Search posts by category.." />
-                    <button><i class="fa fa-search"></i></button>
-                </form>                
-            </div>
+                    <div class="search-wrapper">
+                        <input type="text" name="category" placeholder="Search posts by category..">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+                        
+            </div>                      
             <div class="navbar_icons">
                 <ul>
                     <a href="" style="color:white">
