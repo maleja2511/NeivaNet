@@ -6,49 +6,45 @@ from django.db.models import Prefetch
 
 def posts(request):
     category_query = request.GET.get('category')
-    
-    # Preparar la consulta prefetched de likes
-    likes_prefetch = Prefetch('likes', queryset=Like.objects.filter(user=request.user), to_attr='current_user_like')
-
-    if category_query:
-        all_posts = Post.objects.filter(category__name__icontains=category_query).prefetch_related(likes_prefetch).order_by('-date_posted')
-    else:
-        all_posts = Post.objects.prefetch_related(likes_prefetch).order_by('-date_posted')
-
-    # Añadir la propiedad is_liked a cada post
-    for post in all_posts:
-        post.is_liked = bool(post.current_user_like)
+    context = {'category_query': category_query}
 
     if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        comment_form = CommentForm(request.POST)
-
-        if "submit_post" in request.POST and form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('posts')
-        elif "submit_comment" in request.POST and comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.user = request.user
-            comment.post = Post.objects.get(id=request.POST.get("post_id"))
-            comment.save()
-            return redirect('posts')
+        if "submit_post" in request.POST:
+            form = PostForm(request.POST, request.FILES)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.ranking = int(request.POST.get('ranking', 0))
+                post.save()
+                return redirect('posts')
+        elif "submit_comment" in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.user = request.user
+                comment.post = Post.objects.get(id=request.POST.get("post_id"))
+                comment.save()
+                return redirect('posts')
     else:
         form = PostForm()
         comment_form = CommentForm()
+    
+    # Prepares posts with likes and star ratings for the template
+    likes_prefetch = Prefetch('likes', queryset=Like.objects.filter(user=request.user), to_attr='current_user_like')
+    all_posts = Post.objects.prefetch_related(likes_prefetch).order_by('-date_posted')
+    if category_query:
+        all_posts = all_posts.filter(category__name__icontains=category_query)
 
-    context = {
+    for post in all_posts:
+        post.is_liked = bool(post.current_user_like)
+        post.star_ratings = get_star_ratings(post.ranking)
+
+    context.update({
         'posts': all_posts,
         'form': form,
-        'comment_form': comment_form,
-        'category_query': category_query
-    }
-    
-    for post in all_posts:
-        post.star_ratings = get_star_ratings(post.ranking)
-        print(post.star_ratings)
-        
+        'comment_form': comment_form
+    })
+
     return render(request, 'posts.html', context)
 
 def toggle_like(request, post_id):

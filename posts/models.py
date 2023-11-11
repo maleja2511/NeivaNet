@@ -16,9 +16,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     date_posted = models.DateTimeField(auto_now_add=True)
-    ranking = models.DecimalField(
-        max_digits=2, 
-        decimal_places=1,
+    ranking = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)], 
         null=True, 
         blank=True

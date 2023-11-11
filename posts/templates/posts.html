@@ -25,12 +25,19 @@
                                 <div class="formulario-posts">
                                     {{ field.label_tag }}
                                     {{ field }}
+                                    
                                     {% if field.errors %}
                                         <div class="error">{{ field.errors }}</div>
                                     {% endif %}
                                 </div>
                             {% endif %}
                         {% endfor %}
+                        <div class="star-rating">
+                            {% for i in "12345" %}
+                            <span class="fa-regular fa-star" style="color:#ffcd02;" data-value="{{forloop.counter}}"></span>
+                            {% endfor %}
+                            <input type="hidden" name="ranking" id="id_ranking" value="">
+                        </div>
                     </div>
                 </div>
 
@@ -55,9 +62,14 @@
 
     {% if not posts %}
     <div class="no-posts-message alert alert-info">
-        No hay publicaciones del servicio de {{ category_query }}.
+        {% if category_query %}
+            No hay publicaciones del servicio de {{ category_query }}.
+        {% else %}
+            No hay publicaciones disponibles.
+        {% endif %}
     </div>
     {% endif %}
+
 
     {% for post in posts %}
     <div class="row border-radius">
@@ -188,6 +200,40 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let stars = document.querySelectorAll('.star-rating .fa-regular');
+        let currentRating = 0; // Mantendrá la puntuación actual seleccionada
+    
+        function updateStars(rating) {
+            stars.forEach(function(star, index) {
+                if (index < rating) {
+                    star.classList.remove('fa-regular');
+                    star.classList.add('fa-solid');
+                } else {
+                    star.classList.add('fa-regular');
+                    star.classList.remove('fa-solid');
+                }
+            });
+        }
+    
+        stars.forEach(function(star, index) {
+            star.addEventListener('click', function() {
+                currentRating = index + 1; // Establece la calificación actual
+                document.getElementById('id_ranking').value = currentRating; // Actualiza el campo oculto
+                updateStars(currentRating); // Actualiza las estrellas
+            });
+    
+            star.addEventListener('mouseover', function() {
+                updateStars(index + 1); // Actualiza las estrellas mientras se pasa por encima
+            });
+    
+            star.addEventListener('mouseout', function() {
+                updateStars(currentRating); // Restaura la calificación actual cuando el ratón sale
+            });
+        });
+    });
+    
     
 
 </script>
