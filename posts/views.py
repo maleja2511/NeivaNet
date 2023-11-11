@@ -44,6 +44,11 @@ def posts(request):
         'comment_form': comment_form,
         'category_query': category_query
     }
+    
+    for post in all_posts:
+        post.star_ratings = get_star_ratings(post.ranking)
+        print(post.star_ratings)
+        
     return render(request, 'posts.html', context)
 
 def toggle_like(request, post_id):
@@ -56,3 +61,21 @@ def toggle_like(request, post_id):
         is_liked = True
 
     return JsonResponse({"is_liked": is_liked, "likes_count": post.likes.count()})
+
+def get_star_ratings(rating):
+    # Esta función devuelve una lista de estrellas según el rating
+    stars = []
+    # Asegúrate de que el rating no sea None antes de hacer la comparación
+    if rating is None:
+        rating = 0  # O cualquier lógica que decidas para manejar un rating no establecido
+    for i in range(1, 6):
+        if rating >= i:
+            stars.append('full')
+        elif rating >= i - 0.5:
+            stars.append('half')
+        else:
+            stars.append('empty')
+    return stars
+
+
+

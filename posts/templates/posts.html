@@ -14,7 +14,7 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="publish_textarea">
                     {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
-                        <img class="border-radius-image" src="{{ user.userprofile.profile_picture.url }}" alt="{{ user.username }}" width="200">
+                        <img class="border-radius-image" src="{{ user.userprofile.profile_picture.url }}" onerror="this.onerror=null;this.src='{% static 'default.png' %}';" alt="{{ user.username }}" width="200">
                     {% else %}
                         <img class="border-radius-image" src="{% static 'default.png' %}" alt="Default Profile Pic" width="200">
                     {% endif %}
@@ -78,6 +78,17 @@
                             <img src="{{ post.image.url }}" alt="{{ post.title }}" />
                         {% endif %}
                         <p>{{ post.content }}</p>
+                        <div class="post-ranking">
+                            {% for star in post.star_ratings %}
+                                {% if star == 'full' %}
+                                    <i class="fa-solid fa-star" style="color:#ffcd02;"></i>
+                                {% elif star == 'half' %}
+                                    <i class="fa-solid fa-star-half-stroke" style="color:#ffcd02;"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-star" style="color:#ffcd02;"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
 
                     <div id="commentSection_{{ post.id }}" class="commentSection">
