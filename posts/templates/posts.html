@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Posts{% endblock %}
+{% block title %}Publicaciones{% endblock %}
 
 {% load static %}
 
@@ -9,7 +9,7 @@
     <div class="row">
         <div class="publish">
             <div class="row_title">
-                <span><i class="fa-regular fa-newspaper"></i> Crear nuevo post</span>
+                <span><i class="fa-regular fa-newspaper"></i> Crear una nueva publicación</span>
             </div>
             <form method="post" enctype="multipart/form-data">
                 <div class="publish_textarea">
@@ -32,9 +32,10 @@
                                 </div>
                             {% endif %}
                         {% endfor %}
-                        <div class="star-rating">
+                        <div>Califica el servicio público recibido:</div>
+                        <div class="star-rating" style="margin:1% 0 0 1%">
                             {% for i in "12345" %}
-                            <span class="fa-regular fa-star" style="color:#ffcd02;" data-value="{{forloop.counter}}"></span>
+                            <span class="fa-regular fa-star" style="color:#ffcd02; margin-left:-1%;" data-value="{{forloop.counter}}"></span>
                             {% endfor %}
                             <input type="hidden" name="ranking" id="id_ranking" value="">
                         </div>
@@ -53,7 +54,7 @@
                             </label>
                             <input type="file" name="image" id="id_image" style="display: none;">
                         </li>   
-                        <button type="submit" name="submit_post">Publish</button>                     
+                        <button type="submit" name="submit_post">Publicar</button>                     
                     </ul>
                 </div>                
             </form>
@@ -83,23 +84,23 @@
                 {% endif %}
                 <span><b><a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></b> <br><p>{{ post.date_posted }}</p></span>                       
                 </div>
-                <div class="feed_content">
-                    <div class="feed_content_image">
-                        <h2>{{ post.title }} <span class="post-category">{{ post.category.name }}</span></h2>
+                <div >
+                    <div class="feed_content">
+                        <h3>{{ post.title }}</h3>
                         {% if post.image %}
                             <img src="{{ post.image.url }}" alt="{{ post.title }}" />
                         {% endif %}
                         <p>{{ post.content }}</p>
+                        <h4>Calificación del servicio público de<span class="post-category">{{ post.category.name }}</span></h4>
                         <div class="post-ranking">
                             {% for star in post.star_ratings %}
                                 {% if star == 'full' %}
                                     <i class="fa-solid fa-star" style="color:#ffcd02;"></i>
-                                {% elif star == 'half' %}
-                                    <i class="fa-solid fa-star-half-stroke" style="color:#ffcd02;"></i>
                                 {% else %}
                                     <i class="fa-regular fa-star" style="color:#ffcd02;"></i>
                                 {% endif %}
                             {% endfor %}
+                            <span> ({{ post.ranking }}/5)</span>
                         </div>
                     </div>
 
@@ -108,7 +109,7 @@
                             {% csrf_token %}
                             <textarea name="content" class="autoExpand" rows="1" placeholder="Add a comment..."></textarea>
                             <input type="hidden" name="post_id" value="{{ post.id }}">
-                            <button type="submit" name="submit_comment">Add Comment</button>
+                            <button type="submit" name="submit_comment">Añadir comentario</button>
                         </form>
                     </div>                    
                     
@@ -122,12 +123,12 @@
                             </a>
                         </li>                                             
                     
-                        <li><span><b>Jimmy, Andrea</b> and 47 more liked this</span></li>
+                        <li><span><b>Jimmy, Andrea</b> y a 47 personas más les gusto</span></li>
                     </ul>
                     <ul class="feed_footer_right">
                         <li>
                             <li class="hover-orange selected-orange"><i class="fa fa-share"></i> 7k</li>
-                            <a href="#commentSection_{{ post.id }}" style="color:#515365;"><li> <i class="fa-regular fa-comment"></i>{{ post.comments.count }} comments</li></a>
+                            <a href="#commentSection_{{ post.id }}" style="color:#515365;"><li> <i class="fa-regular fa-comment"></i>{{ post.comments.count }} comentarios</li></a>
                         </li>
                     </ul>
                 </div>
