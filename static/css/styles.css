@@ -719,6 +719,7 @@ button:hover {
 .suggestions_row {
   width: 25%;
 }
+
 .loadmorefeed {
   text-align: center;
   background-color: #ccd1e0;
@@ -790,6 +791,8 @@ button:hover {
 
 .formulario-posts select {
   flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .formulario-posts input,
@@ -988,4 +991,8 @@ button:hover {
   margin-left:1%;
   display: inline-block;
   transform: translateY(-5%);
+}
+
+.column_posts{
+  margin:0;
 }

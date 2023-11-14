@@ -73,28 +73,34 @@
             {% endblock %}
 
             <div class="suggestions_row">
-                <div class="row shadow">
+                <div class="row column_posts">
                     <div class="row_title">
-                        <span>Friend Suggestions</span>
-                        <a href="friends.html">see more..</a>
+                        <span>Top Posts</span>
+                        <a href="{% url 'posts' %}">Ver publicaciones</a>
                     </div>
+                    <!-- Aquí comienza el loop para listar los posts -->
+                    {% for post in posts %}
                     <div class="row_contain">
-                        <img src="images/user-7.jpg" alt="" />
-                        <span><b>Francine Smith</b><br>8 Friends in Common</span>
-                        <button>+</button>
+                        <span><b>{{ post.title }}</b></span>
+                        <span>{{ post.date_posted|date:"d M Y" }}</span> <!-- Formato de fecha -->
+                        <span>{{ post.category.name }}</span>
+                        <span>
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= post.ranking %}
+                                    <i class="fa-solid fa-star" style="color:#ffcd02;"></i> <!-- Estrella llena -->
+                                {% endif %}
+                            {% endfor %}
+                        </span>
                     </div>
+                    {% empty %}
                     <div class="row_contain">
-                        <img src="images/user-2.jpg" alt="" />
-                        <span><b>Hugh Wilson</b><br>6 Friends in Common</span>
-                        <button>+</button>
+                        <p>No hay publicaciones disponibles.</p>
                     </div>
-                    <div class="row_contain">
-                        <img src="images/user-6.jpg" alt="" />
-                        <span><b>Karen Masters</b><br>6 Friends in Common</span>
-                        <button>+</button>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
+            
+            
             
         </div>
 
