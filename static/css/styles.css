@@ -888,6 +888,7 @@ button:hover {
   width: 100%;
   max-width: 800px;
   padding: 2% 5%;
+  justify-content: space-around;
 }
 
 .commentSection textarea {
@@ -994,5 +995,26 @@ button:hover {
 }
 
 .column_posts{
+  width:100%;
   margin:0;
+  padding:5%;
+}
+
+.mini_table {
+  font-size: 0.7em; /* Tamaño de letra más pequeño */
+}
+
+.mini_table th,
+.mini_table td {
+  padding: 5px; /* Ajusta el espaciado interno */
+  text-align: left; /* Alineación del texto */
+  border-bottom: 1px solid #ddd; /* Línea separadora entre filas */
+}
+
+.mini_table thead {
+  background-color: #f2f2f2; /* Color de fondo para el encabezado */
+}
+
+.mini_table tr:hover {
+  background-color: #f5f5f5; /* Color de fondo al pasar el ratón sobre las filas */
 }
