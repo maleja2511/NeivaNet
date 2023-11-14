@@ -5,11 +5,15 @@ from .forms import PostForm, CommentForm
 from django.http import JsonResponse
 from django.db.models import Prefetch
 from .models import Category
-from django.db.models import Func
+from django.db.models import Func, IntegerField
+from django.db.models.functions import Coalesce
 
 class Round(Func):
     function = 'ROUND'
     template = '%(function)s(%(expressions)s, 0)'
+
+    def __init__(self, expression):
+        super().__init__(expression, output_field=IntegerField())
 
 
 def posts(request):
@@ -46,14 +50,11 @@ def posts(request):
     for post in all_posts:
         post.is_liked = bool(post.current_user_like)
         post.star_ratings = get_star_ratings(post.ranking)
-        
-    categories_with_ranking = Category.objects.all().annotate(average_score=Round(models.Avg('post__ranking'))).order_by('-average_score')
 
     context.update({
         'posts': all_posts,
         'form': form,
         'comment_form': comment_form,
-        'categories_with_ranking': categories_with_ranking,
     })
 
     return render(request, 'posts.html', context)
