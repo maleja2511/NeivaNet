@@ -419,9 +419,10 @@ button:hover {
   letter-spacing: 1px;
 }
 .row_title span {
-  padding: 20px;
-  font-size: 0.775rem;
+  padding: 2%;
+  font-size: 0.8rem;
   font-weight: 700;
+  margin: 0 auto;
 }
 .row_title a {
   font-size: 0.675rem;
@@ -592,15 +593,13 @@ button:hover {
   justify-content: space-between;
 }
 .publish_icons li {
-  height: 50px;
   display: inline-block;
   width: 50px;
-  font-size: 19px;
-  line-height: 2.5;
   cursor: pointer;
   font-size: 16px;
   line-height: 3;
   text-align: center;
+  margin: 2% 0 2% 5%;
 }
 .publish_icons ul li:hover {
   background-color: #0d5588;
@@ -609,12 +608,13 @@ button:hover {
 .publish_icons button {
   border: none;
   cursor: pointer;
-  padding: 10px 30px;
+  padding: 0 5%;
   font-style: normal;
   color: #fff;
   background-color: #0d5588;
   border-radius: 25px;
-  margin: 6px 20px 6px ;
+  margin: 2% 5% 2% 0;
+  transition: background-color 0.3s ease;
 }
 
 .publish_icons button:hover {
@@ -892,7 +892,7 @@ button:hover {
 }
 
 .commentSection textarea {
-  width: 70%;
+  width: 100%;
   margin-right: 10px;
   padding: 10px;
   border: 1px solid #ddd;
@@ -1001,18 +1001,19 @@ button:hover {
 }
 
 .mini_table {
-  font-size: 0.7em; /* Tamaño de letra más pequeño */
+  width:100%;
+  font-size: 0.8em;
 }
 
 .mini_table th,
 .mini_table td {
-  padding: 5px; /* Ajusta el espaciado interno */
-  text-align: left; /* Alineación del texto */
-  border-bottom: 1px solid #ddd; /* Línea separadora entre filas */
+  padding: 5px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 .mini_table thead {
-  background-color: #f2f2f2; /* Color de fondo para el encabezado */
+  background-color: #f2f2f2;
 }
 
 .mini_table tr:hover {

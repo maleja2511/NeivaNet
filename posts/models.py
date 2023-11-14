@@ -8,6 +8,12 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def average_ranking(self):
+        posts = Post.objects.filter(category=self)
+        total_ranking = sum([post.ranking for post in posts if post.ranking is not None])
+        count = posts.filter(ranking__isnull=False).count()
+        return total_ranking / count if count > 0 else 0
 
 class Post(models.Model):
     title = models.CharField(max_length=200)

@@ -1,8 +1,16 @@
 from django.shortcuts import redirect, render
+from django.db import models
 from posts.models import Post, Like
 from .forms import PostForm, CommentForm
 from django.http import JsonResponse
 from django.db.models import Prefetch
+from .models import Category
+from django.db.models import Func
+
+class Round(Func):
+    function = 'ROUND'
+    template = '%(function)s(%(expressions)s, 0)'
+
 
 def posts(request):
     category_query = request.GET.get('category')
@@ -14,7 +22,7 @@ def posts(request):
             if form.is_valid():
                 post = form.save(commit=False)
                 post.author = request.user
-                post.ranking = int(request.POST.get('ranking', 0))
+                post.ranking = int(request.POST.get('ranking', 0)) if request.POST.get('ranking', 0).isdigit() else 0
                 post.save()
                 return redirect('posts')
         elif "submit_comment" in request.POST:
@@ -38,11 +46,14 @@ def posts(request):
     for post in all_posts:
         post.is_liked = bool(post.current_user_like)
         post.star_ratings = get_star_ratings(post.ranking)
+        
+    categories_with_ranking = Category.objects.all().annotate(average_score=Round(models.Avg('post__ranking'))).order_by('-average_score')
 
     context.update({
         'posts': all_posts,
         'form': form,
-        'comment_form': comment_form
+        'comment_form': comment_form,
+        'categories_with_ranking': categories_with_ranking,
     })
 
     return render(request, 'posts.html', context)
@@ -72,6 +83,3 @@ def get_star_ratings(rating):
         else:
             stars.append('empty')
     return stars
-
-
-

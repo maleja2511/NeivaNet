@@ -91,7 +91,7 @@
                             <img src="{{ post.image.url }}" alt="{{ post.title }}" />
                         {% endif %}
                         <p>{{ post.content }}</p>
-                        <h4>Calificación del servicio público de<span class="post-category">{{ post.category.name }}</span></h4>
+                        <h4>Calificación del servicio de<span class="post-category">{{ post.category.name }}</span></h4>
                         <div class="post-ranking">
                             {% for star in post.star_ratings %}
                                 {% if star == 'full' %}
