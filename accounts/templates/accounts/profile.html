@@ -4,13 +4,6 @@
 
 {% block content %}
 <div class="right_row">
-  <div class="row border-radius">
-      <div class="feed">
-          <div class="feed_title">
-              <span><a href="{% url 'profile' %}" id="select_profile_menu"><b>Profile</b></a> | <a href="{% url 'profile'  %}"><b>About</b></a> </span>
-          </div>
-      </div>
-  </div>
   <div class="profile-info">
     <h2 class="profile-title">{{ profile_user.username }}</h2>
     {% if profile_user.userprofile and profile_user.userprofile.profile_picture and profile_user.userprofile.profile_picture.url != 'default.png' %}
