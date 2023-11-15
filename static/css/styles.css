@@ -608,12 +608,12 @@ button:hover {
 .publish_icons button {
   border: none;
   cursor: pointer;
-  padding: 0 5%;
+  padding: 2% 5%;
   font-style: normal;
   color: #fff;
   background-color: #0d5588;
   border-radius: 25px;
-  margin: 2% 5% 2% 0;
+  margin: 3% 5% 3% 0;
   transition: background-color 0.3s ease;
 }
 
@@ -982,7 +982,7 @@ button:hover {
 
 .commentSection button {
   margin-top: 0;
-  padding: 8px 20px; 
+  padding: 10px 20px; 
   background-color: #1a517a;
   color: white;
   border: none;
