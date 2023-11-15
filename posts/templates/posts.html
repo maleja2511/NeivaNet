@@ -71,7 +71,6 @@
     </div>
     {% endif %}
 
-
     {% for post in posts %}
     <div class="row border-radius">
         <div class="feed">
@@ -103,7 +102,6 @@
                             <span> ({{ post.ranking }}/5)</span>
                         </div>
                     </div>
-
                     <div id="commentSection_{{ post.id }}" class="commentSection">
                         <form method="post">
                             {% csrf_token %}
@@ -112,7 +110,6 @@
                             <button type="submit" name="submit_comment">Comentar</button>
                         </form>
                     </div>                    
-                    
                 </div>
                 <div class="feed_footer">
                     <ul class="feed_footer_left">
@@ -122,7 +119,6 @@
                             <i class="fa fa-heart"></i> <span class="like-count">{{ post.likes.count }}</span>
                             </a>
                         </li>                                             
-                    
                         <li><span><b>Jimmy, Andrea</b> y a 47 personas más les gusto</span></li>
                     </ul>
                     <ul class="feed_footer_right">
@@ -134,14 +130,52 @@
                 </div>
 
                 <div class="existing-comments">
-                    {% for comment in post.comments.all %}
+                    {% for comment in post.top_level_comments %}
                         <div class="comment">
                             <b>{{ comment.user.username }}</b>: {{ comment.content }}
+                            <!-- Añadir enlace para responder al comentario -->
+                            <a href="#replyToComment_{{ comment.id }}" class="reply-link">Responder</a>
+                            <!-- Formulario de respuesta, oculto inicialmente -->
+                            <div id="replyToComment_{{ comment.id }}" style="display: none;">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <textarea name="content" placeholder="Escribe una respuesta..."></textarea>
+                                    <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                                    <button type="submit" class="reply_button" name="submit_comment">
+                                        <i class="fa-solid fa-circle-check fa-xl" style="color: #246da2;"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
+
+                            <!-- Sección de respuestas al comentario -->
+                            <div class="replies">
+                                {% for reply in comment.get_all_replies %}
+                                    <div class="reply">
+                                        <!-- Mostrar a quién se está respondiendo en la respuesta -->
+                                        <b>{{ reply.user.username }}</b> a <b>{{ reply.parent.user.username }}</b>: {{ reply.content }}
+                                        <!-- Añadir enlace para responder a la respuesta -->
+                                        <a href="#replyToReply_{{ reply.id }}" class="reply-link">Responder</a>
+                                    
+                                        <!-- Formulario de respuesta para la respuesta, oculto inicialmente -->
+                                        <div id="replyToReply_{{ reply.id }}" style="display: none;">
+                                            <form method="post">
+                                                {% csrf_token %}
+                                                <textarea name="content" placeholder="Escribe una respuesta a la respuesta..."></textarea>
+                                                <input type="hidden" name="parent_id" value="{{ reply.id }}">
+                                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                                <button type="submit" class="reply_button" name="submit_comment">
+                                                    <i class="fa-solid fa-circle-check fa-xl" style="color: #246da2;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
                     {% endfor %}
                 </div>
-                       
-
             </div>  
         </div>
     </div>
@@ -170,6 +204,7 @@
         }
     }, false);    
 
+    //manejo de likes
     document.addEventListener("DOMContentLoaded", function() {
         const likeLinks = document.querySelectorAll(".like-link");
         likeLinks.forEach(link => {
@@ -202,6 +237,7 @@
         });
     });
 
+    //manejo de estrellas
     document.addEventListener('DOMContentLoaded', function() {
         let stars = document.querySelectorAll('.star-rating .fa-regular');
         let currentRating = 0; // Mantendrá la puntuación actual seleccionada
@@ -224,18 +260,26 @@
                 document.getElementById('id_ranking').value = currentRating; // Actualiza el campo oculto
                 updateStars(currentRating); // Actualiza las estrellas
             });
-    
             star.addEventListener('mouseover', function() {
                 updateStars(index + 1); // Actualiza las estrellas mientras se pasa por encima
             });
-    
             star.addEventListener('mouseout', function() {
                 updateStars(currentRating); // Restaura la calificación actual cuando el ratón sale
             });
         });
     });
     
-    
-
+    //manejo de comentarios
+    document.addEventListener("DOMContentLoaded", function() {
+        const replyLinks = document.querySelectorAll(".reply-link");
+        replyLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                const replyFormId = e.target.getAttribute('href');
+                const replyForm = document.querySelector(replyFormId);
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    });
 </script>
 {% endblock %}

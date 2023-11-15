@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'posts',
     'colorfield',
+    'notifications'
 ]
 
 X_FRAME_OPTIONS  =  'MISMOORIGIN' 

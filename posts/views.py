@@ -4,7 +4,7 @@ from posts.models import Post, Like
 from .forms import PostForm, CommentForm
 from django.http import JsonResponse
 from django.db.models import Prefetch
-from .models import Category
+from .models import Category, Comment
 from django.db.models import Func, IntegerField
 from django.db.models.functions import Coalesce
 
@@ -19,6 +19,10 @@ class Round(Func):
 def posts(request):
     category_query = request.GET.get('category')
     context = {'category_query': category_query}
+    
+    # Inicializar form y comment_form al principio
+    form = PostForm()
+    comment_form = CommentForm()
 
     if request.method == 'POST':
         if "submit_post" in request.POST:
@@ -35,8 +39,12 @@ def posts(request):
                 comment = comment_form.save(commit=False)
                 comment.user = request.user
                 comment.post = Post.objects.get(id=request.POST.get("post_id"))
+                parent_id = request.POST.get('parent_id')
+                if parent_id:
+                    comment.parent = Comment.objects.get(id=parent_id)
                 comment.save()
                 return redirect('posts')
+
     else:
         form = PostForm()
         comment_form = CommentForm()
@@ -50,6 +58,7 @@ def posts(request):
     for post in all_posts:
         post.is_liked = bool(post.current_user_like)
         post.star_ratings = get_star_ratings(post.ranking)
+        post.top_level_comments = post.comments.filter(parent=None)
 
     context.update({
         'posts': all_posts,

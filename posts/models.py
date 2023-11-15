@@ -39,9 +39,17 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 
     def __str__(self):
         return f"Comment by {self.user} on {self.post.title}"
+    
+    def get_all_replies(self):
+        replies = list(self.replies.all())
+        for reply in self.replies.all():
+            replies.extend(reply.get_all_replies())
+        return replies
+
     
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
