@@ -1123,11 +1123,73 @@ button:hover {
   z-index: 9999;
 }
 
+#notification-menu {
+  display: none; /* Oculto inicialmente */
+  position: absolute;
+  background-color: #fff;
+  min-width: 250px; /* Ajusta según necesidades */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1000;
+  max-height: 500px;
+  overflow-y: auto; /* Permite desplazamiento vertical si el contenido excede max-height */
+}
+
 .notification-dropdown a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  border-bottom: 1px solid #f1f1f1; /* Línea divisoria entre elementos */
 }
 
-.notification-dropdown a:hover {background-color: #f1f1f1;}
+.notification-dropdown a:last-child {
+  border-bottom: none; /* Evita la línea divisoria en el último elemento */
+}
+
+.notification-dropdown a:hover {
+  background-color: #f1f1f1;
+}
+
+.notification-dropdown .no-notifications {
+  padding: 12px 16px;
+  text-align: center;
+  color: #666;
+}
+
+.notifications-list {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 5%;
+  width:90%;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #e6ecf5;
+  color: #515365;
+}
+
+.notification-item a {
+  color: #0d5588;
+  text-decoration: none;
+}
+
+.notification-item a:hover {
+  text-decoration: underline;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notifications-list p {
+  text-align: center;
+  color: #515365;
+}
+
+.notifications-content{
+  display:flex;
+  flex-direction: column;
+}
