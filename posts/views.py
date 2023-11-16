@@ -4,9 +4,13 @@ from posts.models import Post, Like
 from .forms import PostForm, CommentForm
 from django.http import JsonResponse
 from django.db.models import Prefetch
-from .models import Category, Comment
+from .models import Category, Comment, Post
 from django.db.models import Func, IntegerField
 from django.db.models.functions import Coalesce
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.http import JsonResponse
+
 
 class Round(Func):
     function = 'ROUND'
@@ -78,6 +82,36 @@ def toggle_like(request, post_id):
         is_liked = True
 
     return JsonResponse({"is_liked": is_liked, "likes_count": post.likes.count()})
+
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    # Asegúrate de que el usuario actual sea el autor de la publicación
+    if request.user == post.author:
+        post.delete()
+        
+
+    return redirect('posts')
+
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    # Asegúrate de que el usuario actual sea el autor del comentario o de la publicación
+    if request.user == comment.user or request.user == comment.post.author:
+        comment.delete()
+        
+
+    return redirect('posts')
+
+def delete_reply(request, reply_id):
+    reply = get_object_or_404(Comment, id=reply_id)
+
+    # Asegúrate de que el usuario actual sea el autor de la respuesta o del comentario original
+    if request.user == reply.user or request.user == reply.parent.user:
+        reply.delete()
+    
+
+    return redirect('posts')
 
 def get_star_ratings(rating):
     # Esta función devuelve una lista de estrellas según el rating

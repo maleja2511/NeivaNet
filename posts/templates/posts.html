@@ -81,7 +81,14 @@
                 {% else %}
                     <img src="{% static 'default.png' %}" alt="Default Profile Pic" width="200">
                 {% endif %}
-                <span><b><a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></b> <br><p>{{ post.date_posted }}</p></span>                       
+                <span><b><a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></b> <br><p>{{ post.date_posted }}</p></span>    
+                <div class="dropdown">
+                    <!-- Usa la clase 'fa' junto con la clase específica del icono (fa-ellipsis-v) de FontAwesome -->
+                    <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
+                    <div class="dropdown-content">
+                      <a href={% url 'delete_post' post.id %}>Eliminar</a>
+                    </div>
+                  </div>                 
                 </div>
                 <div >
                     <div class="feed_content">
@@ -119,7 +126,6 @@
                             <i class="fa fa-heart"></i> <span class="like-count">{{ post.likes.count }}</span>
                             </a>
                         </li>                                             
-            
                     </ul>
                     <ul class="feed_footer_right">
                         <li>
@@ -134,6 +140,12 @@
                             <b>{{ comment.user.username }}</b>: {{ comment.content }}
                             <!-- Añadir enlace para responder al comentario -->
                             <a href="#replyToComment_{{ comment.id }}" class="reply-link">Responder</a>
+                            <div class="dropdown">
+                                <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
+                                <div class="dropdown-content">
+                                    <a href={% url 'delete_comment' comment.id %}>Eliminar</a>
+                                </div>
+                            </div>
                             <!-- Formulario de respuesta, oculto inicialmente -->
                             <div id="replyToComment_{{ comment.id }}" style="display: none;">
                                 <form method="post">
@@ -155,7 +167,14 @@
                                         <!-- Mostrar a quién se está respondiendo en la respuesta -->
                                         <b>{{ reply.user.username }}</b> a <b>{{ reply.parent.user.username }}</b>: {{ reply.content }}
                                         <!-- Añadir enlace para responder a la respuesta -->
-                                        <a href="#replyToReply_{{ reply.id }}" class="reply-link">Responder</a>
+                                        <a href="{% url 'delete_comment' comment.id %}" class="reply-link">Responder</a>
+
+                                        <div class="dropdown">
+                                            <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
+                                            <div class="dropdown-content">
+                                                <a href="{% url 'delete_reply' reply.id %}">Eliminar</a>
+                                            </div>
+                                        </div>
                                     
                                         <!-- Formulario de respuesta para la respuesta, oculto inicialmente -->
                                         <div id="replyToReply_{{ reply.id }}" style="display: none;">
@@ -172,9 +191,9 @@
                                     </div>
                                 {% endfor %}
                             </div>
-
                     {% endfor %}
                 </div>
+
             </div>  
         </div>
     </div>
