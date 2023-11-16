@@ -14,7 +14,10 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
   </head>
 
   <body>
@@ -46,7 +49,12 @@
         </div>
         <div class="navbar_icons">
           <ul>
-            <a href="" style="color:white">
+            <a href="#" id="notification-icon" style="color: white">
+              <li><i class="fa-solid fa-bell"></i></li>
+            </a>
+            <div id="notification-menu" class="notification-dropdown">
+            </div>
+            <a href="#" style="color: white">
               <li><i class="fa fa-globe"></i></li>
             </a>
             <a href="{% url 'logout' %}" style="color: white">
@@ -63,12 +71,10 @@
         <div class="left_row">
           <div class="left_row_profile">
             {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
-            <img
-              id="profile_pic"
+            <img id="profile_pic"
               src="{{ user.userprofile.profile_picture.url }}"
               onerror="this.onerror=null;this.src='{% static 'default.png' %}';"
-              alt="{{ profile_user.username }}"
-            />
+              alt="{{ profile_user.username }}"/>
             {% else %}
             <img
               id="profile_pic"
@@ -81,10 +87,14 @@
           <div class="rowmenu">
             <ul>
               <li>
-                <a href="{% url 'posts' %}" id="rowmenu-selected"><i class="fa fa-globe"></i>Publicaciones</a>
+                <a href="{% url 'posts' %}" id="rowmenu-selected"
+                  ><i class="fa fa-globe"></i>Publicaciones</a
+                >
               </li>
               <li>
-                <a href="{% url 'profile' %}"><i class="fa fa-user"></i>Perfil</a>
+                <a href="{% url 'profile' %}"
+                  ><i class="fa fa-user"></i>Perfil</a
+                >
               </li>
             </ul>
           </div>
@@ -115,15 +125,13 @@
                 <tr>
                   <td>{{ category.name }}</td>
                   <td>
-                    {% for i in "12345" %} 
-                        {% if forloop.counter <= category.average_score %}
-                        <i class="fa-solid fa-star" style="color: #ffcd02"></i>
-                        <!-- Estrella llena -->
-                        {% else %}
-                        <i class="fa-regular fa-star" style="color: #ffcd02"></i>
-                        <!-- Estrella vacía -->
-                        {% endif %}
-                    {% endfor %}
+                    {% for i in "12345" %} {% if forloop.counter <= category.average_score %}
+                    <i class="fa-solid fa-star" style="color: #ffcd02"></i>
+                    <!-- Estrella llena -->
+                    {% else %}
+                    <i class="fa-regular fa-star" style="color: #ffcd02"></i>
+                    <!-- Estrella vacía -->
+                    {% endif %} {% endfor %}
                     <span>({{ category.average_score|floatformat:0 }}/5)</span>
                   </td>
                 </tr>
@@ -140,7 +148,37 @@
     </main>
 
     <footer>
-      <!-- Aquí puedes poner un pie de página -->
     </footer>
+    <script>
+      document.getElementById("notification-icon").onclick = function(event) {
+        // Evita la acción predeterminada del enlace
+        event.preventDefault();
+        
+        // Cargar notificaciones y mostrar el menú
+        fetch('{% url "get-notifications" %}')
+          .then(response => response.text())
+          .then(html => {
+            document.getElementById("notification-menu").innerHTML = html;
+            document.getElementById("notification-menu").style.display = 'block';
+          });
+    
+        // Esto evita que el evento clic se propague
+        event.stopPropagation(); 
+      };
+    
+      // Ocultar el menú al hacer clic fuera
+      window.onclick = function(event) {
+        if (!event.target.matches("#notification-icon")) {
+          var dropdowns = document.getElementsByClassName("notification-dropdown");
+          for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.style.display === 'block') {
+              openDropdown.style.display = 'none';
+            }
+          }
+        }
+      };
+    </script>
+    
   </body>
 </html>

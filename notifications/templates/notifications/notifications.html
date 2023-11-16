@@ -1,0 +1,7 @@
+{% for notification in notifications %}
+  <a href="{{ notification.link }}">
+    {{ notification.text }}
+  </a>
+{% empty %}
+  <p>No tienes nuevas notificaciones.</p>
+{% endfor %}

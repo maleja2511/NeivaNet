@@ -11,13 +11,13 @@
     {% else %}
       <img src="{% static 'default.png' %}" alt="Default Profile Pic" width="200">
     {% endif %}
-    <p><strong>Username:</strong> {{ profile_user.username }}</p>
-    <p><strong>Email:</strong> {{ profile_user.email }}</p>
-    <p><strong>First name:</strong> {{ profile_user.first_name }}</p>
-    <p><strong>Last name:</strong> {{ profile_user.last_name }}</p>
-    <p><strong>Date of Birth:</strong> {{ profile_user.userprofile.date_of_birth }}</p>
+    <p><strong>Nombre de usuario:</strong> {{ profile_user.username }}</p>
+    <p><strong>Correo electrónico:</strong> {{ profile_user.email }}</p>
+    <p><strong>Nombres:</strong> {{ profile_user.first_name }}</p>
+    <p><strong>Apellidos:</strong> {{ profile_user.last_name }}</p>
+    <p><strong>Fecha de nacimiento:</strong> {{ profile_user.userprofile.date_of_birth }}</p>
     <div class="form-footer" style="margin-top: 30px;">
-      <a class="ancla_button" href="{% url 'update_profile' %}">Update Profile</a>
+      <a class="ancla_button" href="{% url 'update_profile' %}">Actualizar perfil</a>
     </div>
   </div>
 </div>
