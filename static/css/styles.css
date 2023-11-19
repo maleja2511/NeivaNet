@@ -415,9 +415,11 @@ button:hover {
   border: 1px solid #e6ecf5;
 }
 .row_title {
-  padding: 10px;
+  padding: 1%;
   border-bottom: 1px solid #e6ecf5;
   letter-spacing: 1px;
+  display:flex;
+  justify-content: center;
 }
 .row_title span {
   padding: 2%;

@@ -82,14 +82,19 @@
                     <img src="{% static 'default.png' %}" alt="Default Profile Pic" width="200">
                 {% endif %}
                 <span><b><a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></b> <br><p>{{ post.date_posted }}</p></span>    
-                <div class="dropdown">
-                    <!-- Usa la clase 'fa' junto con la clase específica del icono (fa-ellipsis-v) de FontAwesome -->
-                    <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
-                    <div class="dropdown-content">
-                      <a href={% url 'delete_post' post.id %}>Eliminar</a>
+                {% if request.user == post.author %}
+                    <div class="dropdown">
+                        <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'delete_post' post.id %}">Eliminar</a>
+                        </div>
                     </div>
-                  </div>                 
+                {% else %}
+                    <div class="dropdown-placeholder" style="width: 24px; height: 24px;">
+                    </div>
+                {% endif %}
                 </div>
+
                 <div >
                     <div class="feed_content">
                         <h3>{{ post.title }}</h3>
@@ -140,12 +145,14 @@
                             <b>{{ comment.user.username }}</b>: {{ comment.content }}
                             <!-- Añadir enlace para responder al comentario -->
                             <a href="#replyToComment_{{ comment.id }}" class="reply-link">Responder</a>
-                            <div class="dropdown">
-                                <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
-                                <div class="dropdown-content">
-                                    <a href={% url 'delete_comment' comment.id %}>Eliminar</a>
+                            {% if request.user == comment.user %}
+                                <div class="dropdown">
+                                    <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'delete_comment' comment.id %}">Eliminar</a>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             <!-- Formulario de respuesta, oculto inicialmente -->
                             <div id="replyToComment_{{ comment.id }}" style="display: none;">
                                 <form method="post">
@@ -169,12 +176,14 @@
                                         <!-- Añadir enlace para responder a la respuesta -->
                                         <a href="{% url 'delete_comment' comment.id %}" class="reply-link">Responder</a>
 
-                                        <div class="dropdown">
-                                            <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
-                                            <div class="dropdown-content">
-                                                <a href="{% url 'delete_reply' reply.id %}">Eliminar</a>
+                                        {% if request.user == reply.user %}
+                                            <div class="dropdown">
+                                                <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
+                                                <div class="dropdown-content">
+                                                    <a href="{% url 'delete_reply' reply.id %}">Eliminar</a>
+                                                </div>
                                             </div>
-                                        </div>
+                                        {% endif %}
                                     
                                         <!-- Formulario de respuesta para la respuesta, oculto inicialmente -->
                                         <div id="replyToReply_{{ reply.id }}" style="display: none;">
