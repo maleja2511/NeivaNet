@@ -1,7 +1,12 @@
 from django import forms
-from .models import Post, Comment
+from .models import Category, Post, Comment
 
 class PostForm(forms.ModelForm):
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        required=True,  # Hace que el campo sea obligatorio
+        label='Categoría'
+    )
     class Meta:
         model = Post
         fields = ['title', 'content', 'image', 'category']
@@ -9,7 +14,6 @@ class PostForm(forms.ModelForm):
             'title': 'Título',
             'content': 'Contenido',
             'image': 'Imagen',
-            'category': 'Categoría',
         }
 
 class CommentForm(forms.ModelForm):

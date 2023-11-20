@@ -11,7 +11,7 @@
             <div class="row_title">
                 <span><i class="fa-regular fa-newspaper"></i> Crear una nueva publicación</span>
             </div>
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" id="postForm">
                 <div class="publish_textarea">
                     {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
                         <img class="border-radius-image" src="{{ user.userprofile.profile_picture.url }}" onerror="this.onerror=null;this.src='{% static 'default.png' %}';" alt="{{ user.username }}" width="200">
@@ -37,7 +37,10 @@
                             {% for i in "12345" %}
                             <span class="fa-regular fa-star" style="color:#ffcd02; margin-left:-1%;" data-value="{{forloop.counter}}"></span>
                             {% endfor %}
-                            <input type="hidden" name="ranking" id="id_ranking" value="">
+                            <input type="hidden" name="ranking" id="id_ranking" required>
+                        </div>
+                        <div id="rankingError" class="error-message" style="display: none; margin-top:1em;">
+                            Por favor, califica el servicio público recibido antes de publicar.
                         </div>
                     </div>
                 </div>
@@ -308,5 +311,19 @@
             });
         });
     });
+
+    //manejo de envio de formulario de post
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+        var rankingValue = document.getElementById('id_ranking').value;
+        var errorDiv = document.getElementById('rankingError');
+    
+        if (!rankingValue) {
+            e.preventDefault(); // Evita que el formulario se envíe
+            errorDiv.style.display = 'block'; // Muestra el mensaje de error
+        } else {
+            errorDiv.style.display = 'none'; // Oculta el mensaje de error si está todo bien
+        }
+    });
+    
 </script>
 {% endblock %}
