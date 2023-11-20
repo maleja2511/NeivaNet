@@ -10,6 +10,7 @@ from django.contrib.auth.views import PasswordResetView
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.views import LoginView as AuthLoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class CustomLoginView(AuthLoginView):
     def form_valid(self, form):
@@ -33,7 +34,7 @@ class RegisterView(CreateView):
     template_name = 'accounts/register.html'
     success_url = reverse_lazy('login')
     
-class UserProfileView(TemplateView):
+class UserProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/profile.html'
 
     def get_context_data(self, **kwargs):

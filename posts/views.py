@@ -1,15 +1,13 @@
 from django.shortcuts import redirect, render
-from django.db import models
 from posts.models import Post, Like
 from .forms import PostForm, CommentForm
 from django.http import JsonResponse
 from django.db.models import Prefetch
-from .models import Category, Comment, Post
+from .models import Comment, Post
 from django.db.models import Func, IntegerField
-from django.db.models.functions import Coalesce
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
 class Round(Func):
@@ -19,7 +17,7 @@ class Round(Func):
     def __init__(self, expression):
         super().__init__(expression, output_field=IntegerField())
 
-
+@login_required
 def posts(request):
     category_query = request.GET.get('category')
     context = {'category_query': category_query}
