@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.views import LoginView as AuthLoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 class CustomLoginView(AuthLoginView):
     def form_valid(self, form):
@@ -53,7 +54,7 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
 
         return context
     
-
+@login_required
 def update_profile(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
     
