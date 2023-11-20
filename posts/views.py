@@ -97,18 +97,16 @@ def delete_comment(request, comment_id):
     # Asegúrate de que el usuario actual sea el autor del comentario o de la publicación
     if request.user == comment.user or request.user == comment.post.author:
         comment.delete()
-        
 
     return redirect('posts')
 
 def delete_reply(request, reply_id):
     reply = get_object_or_404(Comment, id=reply_id)
 
-    # Asegúrate de que el usuario actual sea el autor de la respuesta o del comentario original
-    if request.user == reply.user or request.user == reply.parent.user:
+    # Asegúrate de que el usuario actual sea el autor de la respuesta o del comentario original o de la publicación        
+    if request.user == reply.user or request.user == reply.parent.user or request.user == reply.post.author:
         reply.delete()
     
-
     return redirect('posts')
 
 def get_star_ratings(rating):

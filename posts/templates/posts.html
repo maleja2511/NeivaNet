@@ -148,7 +148,7 @@
                             <b>{{ comment.user.username }}</b>: {{ comment.content }}
                             <!-- Añadir enlace para responder al comentario -->
                             <a href="#replyToComment_{{ comment.id }}" class="reply-link">Responder</a>
-                            {% if request.user == comment.user %}
+                            {% if request.user == comment.user or request.user == comment.post.author %}
                                 <div class="dropdown">
                                     <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
                                     <div class="dropdown-content">
@@ -179,7 +179,7 @@
                                         <!-- Añadir enlace para responder a la respuesta -->
                                         <a href="{% url 'delete_comment' comment.id %}" class="reply-link">Responder</a>
 
-                                        {% if request.user == reply.user %}
+                                        {% if request.user == reply.user or request.user == reply.parent.user or request.user == reply.post.author %}
                                             <div class="dropdown">
                                                 <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
                                                 <div class="dropdown-content">
