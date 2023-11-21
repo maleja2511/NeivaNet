@@ -101,7 +101,6 @@
                                     <div class="dropdown-content">
                                         <a href="{% url 'delete_comment' comment.id %}">Eliminar</a>
                                         {% if request.user == comment.user %}
-                                            {% comment %} <a href="{% url 'edit_comment' comment.id %}">Editar</a> {% endcomment %}
                                             <a href="#" onclick="event.preventDefault(); showEditForm({{ comment.id }});">Editar</a>
                                         {% endif %}
                                     </div>
@@ -131,7 +130,8 @@
                                 {% for reply in comment.get_all_replies %}
                                     <div class="reply">
                                         <!-- Mostrar a quién se está respondiendo en la respuesta -->
-                                        <b>{{ reply.user.username }}</b> a <b>{{ reply.parent.user.username }}</b>: {{ reply.content }}
+                                        <b>{{ reply.user.username }}</b> a <b>{{ reply.parent.user.username }}</b>: <span id="commentText{{ reply.id }}">{{ reply.content }}</span>
+
                                         <!-- Añadir enlace para responder a la respuesta -->
                                         <a href="{% url 'delete_comment' comment.id %}" class="reply-link">Responder</a>
 
@@ -141,7 +141,7 @@
                                                 <div class="dropdown-content">
                                                     <a href="{% url 'delete_reply' reply.id %}">Eliminar</a>
                                                     {% if request.user == reply.user %}
-                                                        <a href="{% url 'edit_reply' comment.id %}">Editar</a>
+                                                        <a href="#" onclick="event.preventDefault(); showEditForm({{ reply.id }});">Editar</a>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -158,6 +158,11 @@
                                                     <i class="fa-solid fa-circle-check fa-xl" style="color: #246da2;"></i>
                                                 </button>
                                             </form>
+                                        </div>
+                                        <!-- Formulario de edición oculto -->
+                                        <div id="editForm{{ reply.id }}" style="display:none;">
+                                            <textarea id="editContent{{ reply.id }}">{{ reply.content }}</textarea>
+                                            <button onclick="submitEdit({{ reply.id }})">Guardar</button>
                                         </div>
                                     </div>
                                 {% endfor %}
