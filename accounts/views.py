@@ -87,8 +87,7 @@ class CustomPasswordResetView(PasswordResetView):
             # En otros casos, toma 'from_where' de la variable de sesión
             from_where_session = self.request.session.get('from_where', 'login')
             self.request.session['from_where'] = from_where_session
-
-        print("desde donde", self.request.session['from_where'])
+            
         return super().dispatch(*args, **kwargs)
 
 

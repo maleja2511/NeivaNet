@@ -87,7 +87,6 @@ def delete_post(request, post_id):
     # Asegúrate de que el usuario actual sea el autor de la publicación
     if request.user == post.author:
         post.delete()
-        
 
     return redirect('posts')
 
@@ -123,3 +122,18 @@ def get_star_ratings(rating):
         else:
             stars.append('empty')
     return stars
+
+@login_required
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.ranking = int(request.POST.get('ranking', 0)) if request.POST.get('ranking', 0).isdigit() else 0
+                post.save()
+                return redirect('posts')
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'edit_post.html', {'form': form})

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="right_row">
+    <div class="row">
+        {% include '_post_form.html' with form=form form_title="Editar Publicación" %}
+    </div>
+</div>
+<script>
+        //manejo de estrellas
+        document.addEventListener('DOMContentLoaded', function() {
+            let stars = document.querySelectorAll('.star-rating .fa-regular');
+            let currentRating = 0; // Mantendrá la puntuación actual seleccionada
+        
+            function updateStars(rating) {
+                stars.forEach(function(star, index) {
+                    if (index < rating) {
+                        star.classList.remove('fa-regular');
+                        star.classList.add('fa-solid');
+                    } else {
+                        star.classList.add('fa-regular');
+                        star.classList.remove('fa-solid');
+                    }
+                });
+            }
+        
+            stars.forEach(function(star, index) {
+                star.addEventListener('click', function() {
+                    currentRating = index + 1; // Establece la calificación actual
+                    document.getElementById('id_ranking').value = currentRating; // Actualiza el campo oculto
+                    updateStars(currentRating); // Actualiza las estrellas
+                });
+                star.addEventListener('mouseover', function() {
+                    updateStars(index + 1); // Actualiza las estrellas mientras se pasa por encima
+                });
+                star.addEventListener('mouseout', function() {
+                    updateStars(currentRating); // Restaura la calificación actual cuando el ratón sale
+                });
+            });
+        });
+</script>
+{% endblock %}
