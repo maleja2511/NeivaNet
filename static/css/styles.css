@@ -495,11 +495,16 @@ button:hover {
   font-weight: bold;
   text-align: center;
 }
-#profile_pic {
+.profile_pic {
   width: 100px;
   height: 100px;
-  border-radius: 200px;
   border: 3px solid #0d5588;
+}
+
+.mini_profile_pic{
+  width: 60px;
+  height: 60px;
+  margin: 10px;
 }
 
 /* MENU */
@@ -572,11 +577,11 @@ button:hover {
   display: flex;
   align-items: center;
 }
-.publish_textarea img {
-  width: 60px;
-  height: 60px;
-  margin: 10px;
+
+#image-previews{
+  padding:10px 0;
 }
+
 .publish_textarea textarea {
   width: 95.2%;
   height: 40px;
@@ -734,9 +739,13 @@ button:hover {
 
 .post-image-content{
   display:flex;
+  flex-wrap: wrap;
   padding: 2% 0;
+  gap: 10px;
   border-bottom:1px solid #e6ecf5;
   margin-bottom:2%;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .post-image {
@@ -744,7 +753,6 @@ button:hover {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto;
 }
 
 /* SETTINGS PAGE */
