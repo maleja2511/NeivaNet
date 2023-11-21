@@ -16,7 +16,7 @@ def create_post_notification(sender, instance, created, **kwargs):
                 post=instance,
                 type=Notification.POSTED,
                 text=f'{instance.author.username} ha publicado una nueva entrada: {instance.title}',
-                link=f'/posts/{instance.id}/'
+                link=f'/my-notifications/'
             )
 
 @receiver(post_save, sender=Like)
@@ -28,7 +28,7 @@ def create_like_notification(sender, instance, created, **kwargs):
             post=instance.post,
             type=Notification.LIKED,
             text=f'{instance.user.username} le ha dado me gusta a tu publicación: {instance.post.title}',
-            link=f'/posts/{instance.post.id}/'
+            link=f'/my-notifications/'
         )
         
 @receiver(post_save, sender=Comment)
@@ -40,7 +40,7 @@ def create_comment_notification(sender, instance, created, **kwargs):
             post=instance.post,
             type=Notification.COMMENTED,
             text=f'{instance.user.username} ha comentado en tu publicación: {instance.post.title}',
-            link=f'/posts/{instance.post.id}/#comments'
+            link=f'/my-notifications/'
         )
 
 @receiver(post_save, sender=Comment)
@@ -52,5 +52,5 @@ def create_reply_notification(sender, instance, created, **kwargs):
             post=instance.post,
             type=Notification.REPLIED,
             text=f'{instance.user.username} ha respondido a tu comentario en la publicación: {instance.post.title}',
-            link=f'/posts/{instance.post.id}/#comment-{instance.parent.id}'
+            link=f'/my-notifications/'
         )

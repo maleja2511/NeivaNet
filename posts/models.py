@@ -18,7 +18,6 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    image = models.ImageField(upload_to='post_images/', blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     date_posted = models.DateTimeField(auto_now_add=True)
@@ -50,7 +49,6 @@ class Comment(models.Model):
             replies.extend(reply.get_all_replies())
         return replies
 
-    
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -58,3 +56,10 @@ class Like(models.Model):
 
     class Meta:
         unique_together = ['post', 'user']
+
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='post_images/')
+
+    def __str__(self):
+        return f"Image for {self.post.title}"

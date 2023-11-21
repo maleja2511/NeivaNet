@@ -14,7 +14,7 @@ class LoginRequiredMiddleware:
                 '/password_reset/login/',
                 '/password_reset/profile/',
                 '/password_reset/done/', 
-                '/reset/',  # Esta ruta es un poco complicada porque tiene parámetros dinámicos
+                '/reset/',
                 '/reset/done/'
             ]
             if not any([request.path.startswith(url) for url in public_urls]):

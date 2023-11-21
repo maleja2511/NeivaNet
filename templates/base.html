@@ -41,7 +41,7 @@
               <input
                 type="text"
                 name="category"
-                placeholder="Search posts by category.."
+                placeholder="Buscar publicaciones por categoría..."
               />
               <button type="submit"><i class="fa fa-search"></i></button>
             </div>
@@ -53,7 +53,8 @@
               <li><i class="fa-solid fa-bell"></i></li>
             </a>
             <div id="notification-menu" class="notification-dropdown">
-            </div>
+              <a href="#" class="no-notifications">No tienes nuevas notificaciones.</a>
+            </div>            
             <a href="#" style="color: white">
               <li><i class="fa fa-globe"></i></li>
             </a>
@@ -108,7 +109,6 @@
           <div class="row column_posts">
             <div class="row_title">
               <span>Top Servicios públicos</span>
-              <span><a href="{% url 'posts' %}">Ver más</a></span>
             </div>
             <table class="mini_table">
               <!-- Agrega una clase para el estilo -->

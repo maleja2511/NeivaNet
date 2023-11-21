@@ -1,0 +1,57 @@
+{% load static %}
+
+<div class="publish">
+    <div class="row_title">
+        <span><i class="fa-regular fa-newspaper"></i> {{ form_title }}</span>
+    </div>
+    <form method="post" enctype="multipart/form-data" id="postForm">
+        <div class="publish_textarea">
+            {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
+                <img class="border-radius-image" src="{{ user.userprofile.profile_picture.url }}" onerror="this.onerror=null;this.src='{% static 'default.png' %}';" alt="{{ user.username }}" width="200">
+            {% else %}
+                <img class="border-radius-image" src="{% static 'default.png' %}" alt="Default Profile Pic" width="200">
+            {% endif %}
+            <div class="publish-content">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.name != "image" %}
+                        <div class="formulario-posts">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            
+                            {% if field.errors %}
+                                <div class="error">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div>Califica el servicio público recibido:</div>
+                <div class="star-rating" style="margin:1% 0 0 1%">
+                    {% for i in "12345" %}
+                    <span class="fa-regular fa-star" style="color:#ffcd02; margin-left:-1%;" data-value="{{forloop.counter}}"></span>
+                    {% endfor %}
+                    <input type="hidden" name="ranking" id="id_ranking" required>
+                </div>
+                <div id="rankingError" class="error-message" style="display: none; margin-top:1em;">
+                    Por favor, califica el servicio público recibido antes de publicar.
+                </div>
+            </div>
+        </div>
+
+        <div id="image-preview" style="display: none;">
+            <img src="" id="image-preview-src">
+        </div>
+        
+        <div class="publish_icons">
+            <ul>
+                <li>
+                    <label for="id_image" style="cursor: pointer;">
+                        <i class="fa fa-camera"></i>
+                    </label>
+                    <input type="file" name="image" id="id_image" style="display: none;">
+                </li>   
+                <button type="submit" name="submit_post">Publicar</button>                     
+            </ul>
+        </div>                
+    </form>
+</div>

@@ -7,58 +7,7 @@
 {% block content %}
 <div class="right_row">
     <div class="row">
-        <div class="publish">
-            <div class="row_title">
-                <span><i class="fa-regular fa-newspaper"></i> Crear una nueva publicación</span>
-            </div>
-            <form method="post" enctype="multipart/form-data">
-                <div class="publish_textarea">
-                    {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
-                        <img class="border-radius-image" src="{{ user.userprofile.profile_picture.url }}" onerror="this.onerror=null;this.src='{% static 'default.png' %}';" alt="{{ user.username }}" width="200">
-                    {% else %}
-                        <img class="border-radius-image" src="{% static 'default.png' %}" alt="Default Profile Pic" width="200">
-                    {% endif %}
-                    <div class="publish-content">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            {% if field.name != "image" %}
-                                <div class="formulario-posts">
-                                    {{ field.label_tag }}
-                                    {{ field }}
-                                    
-                                    {% if field.errors %}
-                                        <div class="error">{{ field.errors }}</div>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                        <div>Califica el servicio público recibido:</div>
-                        <div class="star-rating" style="margin:1% 0 0 1%">
-                            {% for i in "12345" %}
-                            <span class="fa-regular fa-star" style="color:#ffcd02; margin-left:-1%;" data-value="{{forloop.counter}}"></span>
-                            {% endfor %}
-                            <input type="hidden" name="ranking" id="id_ranking" value="">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="image-preview" style="display: none;">
-                    <img src="" id="image-preview-src">
-                </div>
-                
-                <div class="publish_icons">
-                    <ul>
-                        <li>
-                            <label for="id_image" style="cursor: pointer;">
-                                <i class="fa fa-camera"></i>
-                            </label>
-                            <input type="file" name="image" id="id_image" style="display: none;">
-                        </li>   
-                        <button type="submit" name="submit_post">Publicar</button>                     
-                    </ul>
-                </div>                
-            </form>
-        </div>
+        {% include '_post_form.html' with form=form form_title="Crear una nueva publicación" %}
     </div>
 
     {% if not posts %}
@@ -82,21 +31,29 @@
                     <img src="{% static 'default.png' %}" alt="Default Profile Pic" width="200">
                 {% endif %}
                 <span><b><a href="{% url 'profile' user_id=post.author.id %}">{{ post.author }}</a></b> <br><p>{{ post.date_posted }}</p></span>    
-                <div class="dropdown">
-                    <!-- Usa la clase 'fa' junto con la clase específica del icono (fa-ellipsis-v) de FontAwesome -->
-                    <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
-                    <div class="dropdown-content">
-                      <a href={% url 'delete_post' post.id %}>Eliminar</a>
+                {% if request.user == post.author %}
+                    <div class="dropdown">
+                        <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'delete_post' post.id %}">Eliminar</a>
+                            <a href="{% url 'edit_post' post.id %}">Editar</a>
+                        </div>
                     </div>
-                  </div>                 
+                {% else %}
+                    <div class="dropdown-placeholder" style="width: 24px; height: 24px;">
+                    </div>
+                {% endif %}
                 </div>
+
                 <div >
                     <div class="feed_content">
                         <h3>{{ post.title }}</h3>
-                        {% if post.image %}
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}" />
-                        {% endif %}
                         <p>{{ post.content }}</p>
+                        <div class="post-image-content">
+                            {% for image in post.images.all %}
+                                <img src="{{ image.image.url }}" alt="{{ post.title }}" class="post-image">
+                            {% endfor %}
+                        </div>
                         <h4>Calificación del servicio de<span class="post-category">{{ post.category.name }}</span></h4>
                         <div class="post-ranking">
                             {% for star in post.star_ratings %}
@@ -137,15 +94,20 @@
                 <div class="existing-comments">
                     {% for comment in post.top_level_comments %}
                         <div class="comment">
-                            <b>{{ comment.user.username }}</b>: {{ comment.content }}
+                            <b>{{ comment.user.username }}</b>: <span id="commentText{{ comment.id }}">{{ comment.content }}</span>
                             <!-- Añadir enlace para responder al comentario -->
                             <a href="#replyToComment_{{ comment.id }}" class="reply-link">Responder</a>
-                            <div class="dropdown">
-                                <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
-                                <div class="dropdown-content">
-                                    <a href={% url 'delete_comment' comment.id %}>Eliminar</a>
+                            {% if request.user == comment.user or request.user == comment.post.author %}
+                                <div class="dropdown">
+                                    <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'delete_comment' comment.id %}">Eliminar</a>
+                                        {% if request.user == comment.user %}
+                                            <a href="#" onclick="event.preventDefault(); showEditForm({{ comment.id }});">Editar</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             <!-- Formulario de respuesta, oculto inicialmente -->
                             <div id="replyToComment_{{ comment.id }}" style="display: none;">
                                 <form method="post">
@@ -158,6 +120,11 @@
                                     </button>
                                 </form>
                             </div>
+                            <!-- Formulario de edición oculto -->
+                            <div id="editForm{{ comment.id }}" style="display:none;">
+                                <textarea id="editContent{{ comment.id }}">{{ comment.content }}</textarea>
+                                <button onclick="submitEdit({{ comment.id }})">Guardar</button>
+                            </div>
                         </div>
 
                             <!-- Sección de respuestas al comentario -->
@@ -165,16 +132,22 @@
                                 {% for reply in comment.get_all_replies %}
                                     <div class="reply">
                                         <!-- Mostrar a quién se está respondiendo en la respuesta -->
-                                        <b>{{ reply.user.username }}</b> a <b>{{ reply.parent.user.username }}</b>: {{ reply.content }}
+                                        <b>{{ reply.user.username }}</b> a <b>{{ reply.parent.user.username }}</b>: <span id="commentText{{ reply.id }}">{{ reply.content }}</span>
+
                                         <!-- Añadir enlace para responder a la respuesta -->
                                         <a href="{% url 'delete_comment' comment.id %}" class="reply-link">Responder</a>
 
-                                        <div class="dropdown">
-                                            <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
-                                            <div class="dropdown-content">
-                                                <a href="{% url 'delete_reply' reply.id %}">Eliminar</a>
+                                        {% if request.user == reply.user or request.user == reply.parent.user or request.user == reply.post.author %}
+                                            <div class="dropdown">
+                                                <button class="dropbtn" ><i class="fas fa-ellipsis-v" style="font-size: 13px;"></i></button>
+                                                <div class="dropdown-content">
+                                                    <a href="{% url 'delete_reply' reply.id %}">Eliminar</a>
+                                                    {% if request.user == reply.user %}
+                                                        <a href="#" onclick="event.preventDefault(); showEditForm({{ reply.id }});">Editar</a>
+                                                    {% endif %}
+                                                </div>
                                             </div>
-                                        </div>
+                                        {% endif %}
                                     
                                         <!-- Formulario de respuesta para la respuesta, oculto inicialmente -->
                                         <div id="replyToReply_{{ reply.id }}" style="display: none;">
@@ -187,6 +160,11 @@
                                                     <i class="fa-solid fa-circle-check fa-xl" style="color: #246da2;"></i>
                                                 </button>
                                             </form>
+                                        </div>
+                                        <!-- Formulario de edición oculto -->
+                                        <div id="editForm{{ reply.id }}" style="display:none;">
+                                            <textarea id="editContent{{ reply.id }}">{{ reply.content }}</textarea>
+                                            <button onclick="submitEdit({{ reply.id }})">Guardar</button>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -299,5 +277,49 @@
             });
         });
     });
+
+    //manejo de envio de formulario de post
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+        var rankingValue = document.getElementById('id_ranking').value;
+        var errorDiv = document.getElementById('rankingError');
+    
+        if (!rankingValue) {
+            e.preventDefault(); // Evita que el formulario se envíe
+            errorDiv.style.display = 'block'; // Muestra el mensaje de error
+        } else {
+            errorDiv.style.display = 'none'; // Oculta el mensaje de error si está todo bien
+        }
+    });
+
+    //edicion comentarios
+    function showEditForm(commentId) {
+        var editForm = document.getElementById('editForm' + commentId);
+        editForm.style.display = 'block';
+    }
+    
+    function submitEdit(commentId) {
+        var newContent = document.getElementById('editContent' + commentId).value;
+    
+        fetch("{% url 'edit_comment' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'comment_id=' + commentId + '&content=' + encodeURIComponent(newContent)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Actualizar la interfaz de usuario con el nuevo contenido del comentario
+            var commentTextElement = document.getElementById('commentText' + commentId);
+            if (commentTextElement) {
+                commentTextElement.textContent = newContent;
+            }
+            document.getElementById('editForm' + commentId).style.display = 'none';
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+    
 </script>
 {% endblock %}
