@@ -3,12 +3,11 @@ from posts.models import Post, Like
 from .forms import PostForm, CommentForm
 from django.http import JsonResponse
 from django.db.models import Prefetch
-from .models import Comment, Post
+from .models import Comment, Post, PostImage
 from django.db.models import Func, IntegerField
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-
 
 class Round(Func):
     function = 'ROUND'
@@ -34,6 +33,9 @@ def posts(request):
                 post.author = request.user
                 post.ranking = int(request.POST.get('ranking', 0)) if request.POST.get('ranking', 0).isdigit() else 0
                 post.save()
+                # Guardar las imágenes
+                for file in request.FILES.getlist('images'):
+                    PostImage.objects.create(post=post, image=file)
                 return redirect('posts')
         elif "submit_comment" in request.POST:
             comment_form = CommentForm(request.POST)

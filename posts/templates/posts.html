@@ -48,9 +48,11 @@
                 <div >
                     <div class="feed_content">
                         <h3>{{ post.title }}</h3>
-                        {% if post.image %}
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}" />
-                        {% endif %}
+                        <div>
+                            {% for image in post.images.all %}
+                                <img src="{{ image.image.url }}" alt="{{ post.title }}">
+                            {% endfor %}
+                        </div>
                         <p>{{ post.content }}</p>
                         <h4>Calificación del servicio de<span class="post-category">{{ post.category.name }}</span></h4>
                         <div class="post-ranking">
