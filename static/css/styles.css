@@ -673,9 +673,7 @@ button:hover {
   height: 300px;
 }
 .feed_content p {
-  padding: 2% 0 2% 0;
-  border-bottom:1px solid #e6ecf5;
-  margin-bottom:2%;
+  padding: 2% 0;
 }
 .feed_footer {
   height: 50px;
@@ -732,6 +730,21 @@ button:hover {
   border-radius: 100%;
   color: #246da2;
   line-height: 3;
+}
+
+.post-image-content{
+  display:flex;
+  padding: 2% 0;
+  border-bottom:1px solid #e6ecf5;
+  margin-bottom:2%;
+}
+
+.post-image {
+  width:25%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 /* SETTINGS PAGE */
