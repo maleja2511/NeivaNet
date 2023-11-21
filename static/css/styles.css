@@ -381,6 +381,7 @@ button:hover {
 .navbar_icons ul li:hover {
   background-color: #303347;
 }
+
 #notification {
   font-size: 10px;
   color: #fff;
@@ -1164,7 +1165,6 @@ button:hover {
   border-radius: 5px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   margin-top: 5%;
-  width:90%;
 }
 
 .notification-item {
@@ -1191,7 +1191,6 @@ button:hover {
   color: #515365;
 }
 
-.notifications-content{
-  display:flex;
-  flex-direction: column;
+#notification-title{
+  padding: 1em 1em 0 1em;
 }

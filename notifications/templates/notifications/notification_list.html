@@ -1,18 +1,17 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div class ="notifications-content">
-  <h2>Mis Notificaciones</h2>
-<div class="notifications-list">
-  {% for notification in notifications %}
-    <div class="notification-item">
-      <a href="{{ notification.link }}">{{ notification.text }}</a>
-      <!-- Agregar más detalles de la notificación aquí si es necesario -->
-    </div>
-  {% empty %}
-    <p>No tienes nuevas notificaciones.</p>
-  {% endfor %}
+{% extends "base.html" %} {% block content %}
+<div class="right_row">
+  <div class="row">
+    <h2 id="notification-title" >Mis Notificaciones</h2>
+      <div class="notifications-list">
+        {% for notification in notifications %}
+        <div class="notification-item">
+          <a href="{{ notification.link }}">{{ notification.text }}</a>
+          <!-- Agregar más detalles de la notificación aquí si es necesario -->
+        </div>
+        {% empty %}
+        <p>No tienes nuevas notificaciones.</p>
+        {% endfor %}
+      </div>
+  </div>
 </div>
-</div>
-
 {% endblock %}
