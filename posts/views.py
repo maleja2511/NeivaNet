@@ -137,3 +137,18 @@ def edit_post(request, post_id):
     else:
         form = PostForm(instance=post)
     return render(request, 'edit_post.html', {'form': form})
+
+@login_required
+def edit_comment(request):
+    # Verificar si la solicitud es AJAX
+    if request.method == 'POST' and request.accepts("application/json"):
+        comment_id = request.POST.get('comment_id')
+        new_content = request.POST.get('content')
+
+        comment = get_object_or_404(Comment, id=comment_id, user=request.user)
+        comment.content = new_content
+        comment.save()
+
+        return JsonResponse({'message': 'Comentario actualizado correctamente.'})
+
+    return JsonResponse({'message': 'Solicitud inválida.'}, status=400)

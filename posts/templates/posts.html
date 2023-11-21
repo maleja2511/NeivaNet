@@ -92,7 +92,7 @@
                 <div class="existing-comments">
                     {% for comment in post.top_level_comments %}
                         <div class="comment">
-                            <b>{{ comment.user.username }}</b>: {{ comment.content }}
+                            <b>{{ comment.user.username }}</b>: <span id="commentText{{ comment.id }}">{{ comment.content }}</span>
                             <!-- Añadir enlace para responder al comentario -->
                             <a href="#replyToComment_{{ comment.id }}" class="reply-link">Responder</a>
                             {% if request.user == comment.user or request.user == comment.post.author %}
@@ -101,7 +101,8 @@
                                     <div class="dropdown-content">
                                         <a href="{% url 'delete_comment' comment.id %}">Eliminar</a>
                                         {% if request.user == comment.user %}
-                                            <a href="{% url 'edit_comment' comment.id %}">Editar</a>
+                                            {% comment %} <a href="{% url 'edit_comment' comment.id %}">Editar</a> {% endcomment %}
+                                            <a href="#" onclick="event.preventDefault(); showEditForm({{ comment.id }});">Editar</a>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -117,6 +118,11 @@
                                         <i class="fa-solid fa-circle-check fa-xl" style="color: #246da2;"></i>
                                     </button>
                                 </form>
+                            </div>
+                            <!-- Formulario de edición oculto -->
+                            <div id="editForm{{ comment.id }}" style="display:none;">
+                                <textarea id="editContent{{ comment.id }}">{{ comment.content }}</textarea>
+                                <button onclick="submitEdit({{ comment.id }})">Guardar</button>
                             </div>
                         </div>
 
@@ -277,6 +283,36 @@
             errorDiv.style.display = 'none'; // Oculta el mensaje de error si está todo bien
         }
     });
+
+    //edicion comentarios
+    function showEditForm(commentId) {
+        var editForm = document.getElementById('editForm' + commentId);
+        editForm.style.display = 'block';
+    }
+    
+    function submitEdit(commentId) {
+        var newContent = document.getElementById('editContent' + commentId).value;
+    
+        fetch("{% url 'edit_comment' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'comment_id=' + commentId + '&content=' + encodeURIComponent(newContent)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Actualizar la interfaz de usuario con el nuevo contenido del comentario
+            var commentTextElement = document.getElementById('commentText' + commentId);
+            if (commentTextElement) {
+                commentTextElement.textContent = newContent;
+            }
+            document.getElementById('editForm' + commentId).style.display = 'none';
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
     
 </script>
 {% endblock %}
