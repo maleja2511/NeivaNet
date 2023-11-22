@@ -1239,6 +1239,9 @@ button:hover {
   }
 
   .rowmenu ul {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
     padding: 0px;
     margin: 0;
 }
