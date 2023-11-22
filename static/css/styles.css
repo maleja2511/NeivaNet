@@ -1252,4 +1252,8 @@ button:hover {
     height: 115px;
     position: relative;
   }
+  
+  .navbar_search {
+    width: auto;
+  }
 }
