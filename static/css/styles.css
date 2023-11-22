@@ -1233,10 +1233,12 @@ button:hover {
   .rowmenu {
     width: 90%;
     margin: auto;
+    padding: 10px 0;
   }
 
   .rowmenu ul {
     padding: 0px;
+    margin: 0;
 }
 
   .right_row {
@@ -1263,6 +1265,22 @@ button:hover {
   
   .navbar_search {
     width: auto;
+  }
+
+  .profile-info img {
+    width: 50%;
+    margin: 10px 25%;
+    border: 3px solid #0d5588;
+    border-radius: 200px;
+  }
+  .profile-info .profile-title {
+    text-transform: capitalize;
+    font-size: 2em;
+    margin: 0px;
+  }
+
+  .left_row .left_row_profile {
+    display: none;
   }
 }
 
