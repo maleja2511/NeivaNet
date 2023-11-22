@@ -1215,12 +1215,19 @@ button:hover {
     display: flex;
     width: 100%;
     position: unset;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   }
 
   .rowmenu {
     width: 90%;
     margin: auto;
   }
+
+  .rowmenu ul {
+    padding: 0px;
+}
 
   .right_row {
     width: 100%;
