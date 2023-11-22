@@ -7,6 +7,7 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 from .views import RegisterView, UserProfileView, CustomPasswordResetView, update_profile, CustomLoginView
+from accounts import views
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
