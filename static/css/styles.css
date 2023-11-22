@@ -1207,15 +1207,11 @@ button:hover {
 }
 
 @media screen and (max-width: 600px) {
-  .id_username {
-    font-size: 15px;
+  .all {
+    flex-direction: column;
   }
 
-  .all {
+  .suggestions_row {
     width: 100%;
-  }
-  /* Estilos para pantallas con ancho máximo de 600px */
-  body {
-      background-color: lightblue;
   }
 }
