@@ -1209,6 +1209,7 @@ button:hover {
 @media screen and (max-width: 600px) {
   .all {
     flex-direction: column;
+    margin-top: 0;
   }
 
   .left_row {
@@ -1241,5 +1242,14 @@ button:hover {
 
   .left_row_profile {
     padding-top: 10px;
+  }
+
+  .navbar_icons {
+    width: 100%;
+  }
+
+  .navbar {
+    height: 115px;
+    position: relative;
   }
 }
