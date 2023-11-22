@@ -1283,7 +1283,7 @@ button:hover {
     display: none;
   }
 
-  .right_row .row .border-radius {
+  .right_row .row {
     width: 100%;
   }
 }
