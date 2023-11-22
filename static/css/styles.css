@@ -1282,6 +1282,10 @@ button:hover {
   .left_row .left_row_profile {
     display: none;
   }
+
+  .right_row .row .border-radius {
+    width: 100%;
+  }
 }
 
 /* modal login */
