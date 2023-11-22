@@ -294,7 +294,7 @@ button:hover {
 
 /* Nav */
 .navbar {
-  height: 50px;
+  height: 75px;
   width: 100%;
   background-color: #0d5588;
   color: white;
@@ -1204,4 +1204,18 @@ button:hover {
 
 #notification-title{
   padding: 1em 1em 0 1em;
+}
+
+@media screen and (max-width: 600px) {
+  .id_username {
+    font-size: 15px;
+  }
+
+  .all {
+    width: 100%;
+  }
+  /* Estilos para pantallas con ancho máximo de 600px */
+  body {
+      background-color: lightblue;
+  }
 }
