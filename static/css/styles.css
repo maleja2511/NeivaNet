@@ -1299,6 +1299,11 @@ button:hover {
   #postForm .publish_textarea .mini_profile_pic {
     display: none;
   }
+
+  #notification-menu {
+    max-width: 331px;
+  }
+  
 }
 
 /* modal login */
