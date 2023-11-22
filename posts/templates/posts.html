@@ -179,18 +179,23 @@
 </div>
 
 <script>
-    document.getElementById("id_image").addEventListener("change", function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
+    document.getElementById('id_images').addEventListener('change', function(event) {
+        var imageContainer = document.getElementById('image-previews');
+        imageContainer.innerHTML = ''; // Limpiar vistas previas anteriores
+
+        Array.from(event.target.files).forEach(file => {
+            var reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById("image-preview-src").src = e.target.result;
-                document.getElementById("image-preview").style.display = "block";
-            }
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '150px';
+                img.style.height = 'auto';
+                imageContainer.appendChild(img);
+            };
             reader.readAsDataURL(file);
-        } else {
-            document.getElementById("image-preview").style.display = "none";
-        }
+        });
+
+        imageContainer.style.display = event.target.files.length ? 'flex' : 'none';
     });
 
     document.addEventListener('input', function (e) {

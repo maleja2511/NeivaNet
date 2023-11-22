@@ -51,9 +51,6 @@
             <div id="notification-menu" class="notification-dropdown">
               <a href="#" class="no-notifications">No tienes nuevas notificaciones.</a>
             </div>            
-            <a href="#" style="color: white">
-              <li><i class="fa fa-globe"></i></li>
-            </a>
             <a href="{% url 'logout' %}" style="color: white">
               <li><i class="fas fa-sign-out-alt"></i></li>
             </a>
@@ -68,13 +65,13 @@
         <div class="left_row">
           <div class="left_row_profile">
             {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
-            <img id="profile_pic"
+            <img class="profile_pic border-radius-image"
               src="{{ user.userprofile.profile_picture.url }}"
               onerror="this.onerror=null;this.src='{% static 'default.png' %}';"
               alt="{{ profile_user.username }}"/>
             {% else %}
             <img
-              id="profile_pic"
+              class="profile_pic border-radius-image"
               src="{% static 'default.png' %}"
               alt="Default Profile Pic"
             />

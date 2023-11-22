@@ -25,7 +25,6 @@
         >
           <div class="wrap-login100">
             <form method="post" class="login100-form validate-form">
-
               {% csrf_token %}
 
               <span class="login100-form-logo">
@@ -35,11 +34,13 @@
               <span class="login100-form-title"> Login </span>
 
               <div class="form-group">
-                {{ form.username.label_tag }} <input type="text" name="username" maxlength="30">
+                {{ form.username.label_tag }}
+                <input type="text" name="username" maxlength="30" />
               </div>
 
               <div class="form-group">
-                {{ form.password.label_tag }} <input type="password" name="password" maxlength="50">
+                {{ form.password.label_tag }}
+                <input type="password" name="password" maxlength="50" />
               </div>
 
               <div class="form-group form-group-row">
@@ -55,26 +56,36 @@
 
               {% if form.errors or messages %}
               <div>
-                  {% for error in form.non_field_errors %}
-                  <p class="error-message">{{ error }}</p>
-                  {% endfor %}
-              
-                  {% for field in form %}
-                  {% for error in field.errors %}
-                  <p class="error-message">{{ error }}</p>
-                  {% endfor %}
-                  {% endfor %}
-              
-                  {% for message in messages %}
-                  <p class="error-message">{{ message }}</p>
-                  {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <p class="error-message">{{ error }}</p>
+                {% endfor %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %} 
+                {% for message in messages %}
+                    <p class="error-message">{{ message }}</p>
+                {% endfor %}
               </div>
-              {% endif %}                                 
+              {% endif %}
 
               <div class="container-login100-form-btn">
-                <button type="submit" class="login100-form-btn">Login</button>
+                <button
+                  type="submit"
+                  class="login100-form-btn"
+                  id="loginButton"
+                >
+                  Login
+                </button>
               </div>
             </form>
+
+            <div id="modal" class="modal" style="display: none">
+              <div class="modal-content">
+                <h2>En un momento podrás ver la ventana principal</h2>
+              </div>
+            </div>
 
             <div class="form-footer">
               <a href="{% url 'register' %}"
@@ -90,5 +101,13 @@
         </div>
       </div>
     </main>
+    <script>
+        var modal = document.getElementById("modal");
+
+        document.getElementById('loginButton').addEventListener('click', function() {
+            modal.style.display = "block";
+        });
+        
+    </script>
   </body>
 </html>
