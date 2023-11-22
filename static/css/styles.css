@@ -335,6 +335,7 @@ button:hover {
   display: flex;
   border: 1px solid #ccc;
   background-color: #ffffff;
+  border-radius: 14px;
   align-items: center;
   overflow: hidden;
 }
@@ -1303,7 +1304,9 @@ button:hover {
   #notification-menu {
     max-width: 331px;
   }
-  
+  .navbar_page {
+    display: none;
+  }
 }
 
 /* modal login */
