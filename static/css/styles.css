@@ -1218,6 +1218,7 @@ button:hover {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    margin: 10px 0 10px 0;
   }
 
   .rowmenu {
@@ -1236,5 +1237,9 @@ button:hover {
 
   .suggestions_row {
     width: 100%;
+  }
+
+  .left_row_profile {
+    padding-top: 10px;
   }
 }
