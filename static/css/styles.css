@@ -1286,6 +1286,15 @@ button:hover {
   .right_row .row {
     width: 100%;
   }
+
+  .feed_title span {
+    margin-left: 0;
+  }
+
+  .dropdown-content {
+    margin-left: -24px;
+    max-width: 90px;
+  }
 }
 
 /* modal login */
