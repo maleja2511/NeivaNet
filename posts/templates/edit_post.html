@@ -6,36 +6,152 @@
     </div>
 </div>
 <script>
-        //manejo de estrellas
-        document.addEventListener('DOMContentLoaded', function() {
-            let stars = document.querySelectorAll('.star-rating .fa-regular');
-            let currentRating = 0; // Mantendrá la puntuación actual seleccionada
-        
-            function updateStars(rating) {
-                stars.forEach(function(star, index) {
-                    if (index < rating) {
-                        star.classList.remove('fa-regular');
-                        star.classList.add('fa-solid');
-                    } else {
-                        star.classList.add('fa-regular');
-                        star.classList.remove('fa-solid');
-                    }
-                });
-            }
-        
-            stars.forEach(function(star, index) {
-                star.addEventListener('click', function() {
-                    currentRating = index + 1; // Establece la calificación actual
-                    document.getElementById('id_ranking').value = currentRating; // Actualiza el campo oculto
-                    updateStars(currentRating); // Actualiza las estrellas
-                });
-                star.addEventListener('mouseover', function() {
-                    updateStars(index + 1); // Actualiza las estrellas mientras se pasa por encima
-                });
-                star.addEventListener('mouseout', function() {
-                    updateStars(currentRating); // Restaura la calificación actual cuando el ratón sale
-                });
+    document.getElementById('id_images').addEventListener('change', function(event) {
+        var imageContainer = document.getElementById('image-previews');
+        imageContainer.innerHTML = ''; // Limpiar vistas previas anteriores
+
+        Array.from(event.target.files).forEach(file => {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '150px';
+                img.style.height = 'auto';
+                imageContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        imageContainer.style.display = event.target.files.length ? 'flex' : 'none';
+    });
+
+    document.addEventListener('input', function (e) {
+        if (e.target.tagName.toLowerCase() === 'textarea' && e.target.classList.contains('autoExpand')) {
+            e.target.style.height = 'auto';
+            e.target.style.height = e.target.scrollHeight + 'px';
+        }
+    }, false);    
+
+    //manejo de likes
+    document.addEventListener("DOMContentLoaded", function() {
+        const likeLinks = document.querySelectorAll(".like-link");
+        likeLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                const postID = e.currentTarget.dataset.postid;
+                fetch(`/toggle_like/${postID}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const likesCount = data.likes_count;
+                        const isLiked = data.is_liked; // Esta variable indica si el usuario actual dio "like".
+                        const heartElement = link.querySelector(".fa-heart");
+                        const likeCountElement = link.querySelector(".like-count");
+    
+                        // Actualizamos el número de "likes".
+                        likeCountElement.textContent = likesCount;
+    
+                        // Cambiamos el color del corazón según si el usuario actual ha dado "like".
+                        if (isLiked) {
+                            heartElement.style.color = "#f0566a";
+                            likeCountElement.style.color = "#f0566a";
+                            heartElement.classList.add("selected-orange");
+                        } else {
+                            heartElement.style.color = "#246da2";
+                            likeCountElement.style.color = "#246da2";
+                            heartElement.classList.remove("selected-orange");
+                        }
+                    });
             });
         });
+    });
+
+    //manejo de estrellas
+    document.addEventListener('DOMContentLoaded', function() {
+        let stars = document.querySelectorAll('.star-rating .fa-regular');
+        let currentRating = 0; // Mantendrá la puntuación actual seleccionada
+    
+        function updateStars(rating) {
+            stars.forEach(function(star, index) {
+                if (index < rating) {
+                    star.classList.remove('fa-regular');
+                    star.classList.add('fa-solid');
+                } else {
+                    star.classList.add('fa-regular');
+                    star.classList.remove('fa-solid');
+                }
+            });
+        }
+    
+        stars.forEach(function(star, index) {
+            star.addEventListener('click', function() {
+                currentRating = index + 1; // Establece la calificación actual
+                document.getElementById('id_ranking').value = currentRating; // Actualiza el campo oculto
+                updateStars(currentRating); // Actualiza las estrellas
+            });
+            star.addEventListener('mouseover', function() {
+                updateStars(index + 1); // Actualiza las estrellas mientras se pasa por encima
+            });
+            star.addEventListener('mouseout', function() {
+                updateStars(currentRating); // Restaura la calificación actual cuando el ratón sale
+            });
+        });
+    });
+    
+    //manejo de comentarios
+    document.addEventListener("DOMContentLoaded", function() {
+        const replyLinks = document.querySelectorAll(".reply-link");
+        replyLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                const replyFormId = e.target.getAttribute('href');
+                const replyForm = document.querySelector(replyFormId);
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    });
+
+    //manejo de envio de formulario de post
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+        var rankingValue = document.getElementById('id_ranking').value;
+        var errorDiv = document.getElementById('rankingError');
+    
+        if (!rankingValue) {
+            e.preventDefault(); // Evita que el formulario se envíe
+            errorDiv.style.display = 'block'; // Muestra el mensaje de error
+        } else {
+            errorDiv.style.display = 'none'; // Oculta el mensaje de error si está todo bien
+        }
+    });
+
+    //edicion comentarios
+    function showEditForm(commentId) {
+        var editForm = document.getElementById('editForm' + commentId);
+        editForm.style.display = 'block';
+    }
+    
+    function submitEdit(commentId) {
+        var newContent = document.getElementById('editContent' + commentId).value;
+    
+        fetch("{% url 'edit_comment' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'comment_id=' + commentId + '&content=' + encodeURIComponent(newContent)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Actualizar la interfaz de usuario con el nuevo contenido del comentario
+            var commentTextElement = document.getElementById('commentText' + commentId);
+            if (commentTextElement) {
+                commentTextElement.textContent = newContent;
+            }
+            document.getElementById('editForm' + commentId).style.display = 'none';
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+    
 </script>
 {% endblock %}
