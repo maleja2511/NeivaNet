@@ -368,6 +368,7 @@ button:hover {
 }
 .navbar_icons ul {
   height: 50px;
+  list-style-type: none;
 }
 .navbar_icons ul li {
   height: 50px;
@@ -1212,6 +1213,22 @@ button:hover {
 
 #notification-title{
   padding: 1em 1em 0 1em;
+}
+
+.notification-bell-container {
+  position: relative;
+  display: inline-block;
+}
+
+.unread-indicator {
+  position: absolute;
+  top: 14px;
+  right: 14px; 
+  background-color: red;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  display: none;
 }
 
 /* modal login */

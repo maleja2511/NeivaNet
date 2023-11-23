@@ -48,13 +48,18 @@
           </form>
         </div>
         <div class="navbar_icons">
-          <ul>
+          <ul style="list-style-type: none;">
             <a href="#" id="notification-icon" style="color: white">
-              <li><i class="fa-solid fa-bell"></i></li>
+              <li class="notification-bell-container" >
+                <i class="fa-solid fa-bell"></i>
+                <span id="unread-notifications-indicator" class="unread-indicator" style="display: none;"></span>
+            </li>            
             </a>
             <div id="notification-menu" class="notification-dropdown">
-              <a href="#" class="no-notifications">No tienes nuevas notificaciones.</a>
-            </div>            
+              <a href="#" class="no-notifications"
+                >No tienes nuevas notificaciones.</a
+              >
+            </div>
             <a href="{% url 'logout' %}" style="color: white">
               <li><i class="fas fa-sign-out-alt"></i></li>
             </a>
@@ -69,10 +74,12 @@
         <div class="left_row">
           <div class="left_row_profile">
             {% if user.userprofile and user.userprofile.profile_picture and user.userprofile.profile_picture.url != 'default.png' %}
-            <img class="profile_pic border-radius-image"
+            <img
+              class="profile_pic border-radius-image"
               src="{{ user.userprofile.profile_picture.url }}"
               onerror="this.onerror=null;this.src='{% static 'default.png' %}';"
-              alt="{{ profile_user.username }}"/>
+              alt="{{ profile_user.username }}"
+            />
             {% else %}
             <img
               class="profile_pic border-radius-image"
@@ -122,7 +129,7 @@
                 <tr>
                   <td>{{ category.name }}</td>
                   <td>
-                    {% for i in "12345" %} {% if forloop.counter <= category.average_score %}
+                    {% for i in "12345" %} {% if forloop.counter <=  category.average_score %}
                     <i class="fa-solid fa-star" style="color: #ffcd02"></i>
                     <!-- Estrella llena -->
                     {% else %}
@@ -144,38 +151,53 @@
       </div>
     </main>
 
-    <footer>
-    </footer>
+    <footer></footer>
     <script>
-      document.getElementById("notification-icon").onclick = function(event) {
-        // Evita la acción predeterminada del enlace
-        event.preventDefault();
-        
-        // Cargar notificaciones y mostrar el menú
-        fetch('{% url "get-notifications" %}')
-          .then(response => response.text())
-          .then(html => {
-            document.getElementById("notification-menu").innerHTML = html;
-            document.getElementById("notification-menu").style.display = 'block';
-          });
-    
-        // Esto evita que el evento clic se propague
-        event.stopPropagation(); 
+        document.getElementById("notification-icon").onclick = function(event) {
+          event.preventDefault();
+          document.getElementById("unread-notifications-indicator").style.display = 'none';
+
+          fetch('{% url "get-notifications" %}')
+            .then(response => {
+              return response.text();
+            })
+            .then(html => {
+              document.getElementById("notification-menu").innerHTML = html;
+              document.getElementById("notification-menu").style.display = 'block';
+            });
+
+          event.stopPropagation();
       };
+
+      function checkUnreadNotifications() {
+        fetch('{% url "unread-notifications-count" %}')
+          .then(response => response.json())
+          .then(data => {
+            if (data.unread_count > 0) {
+              document.getElementById("unread-notifications-indicator").style.display = 'inline';
+            } else {
+              document.getElementById("unread-notifications-indicator").style.display = 'none';
+            }
+          });
+      }
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        checkUnreadNotifications();
+    });
     
-      // Ocultar el menú al hacer clic fuera
-      window.onclick = function(event) {
-        if (!event.target.matches("#notification-icon")) {
-          var dropdowns = document.getElementsByClassName("notification-dropdown");
-          for (var i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.style.display === 'block') {
-              openDropdown.style.display = 'none';
+
+        // Ocultar el menú al hacer clic fuera
+        window.onclick = function(event) {
+          if (!event.target.matches("#notification-icon")) {
+            var dropdowns = document.getElementsByClassName("notification-dropdown");
+            for (var i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.style.display === 'block') {
+                openDropdown.style.display = 'none';
+              }
             }
           }
-        }
-      };
+        };
     </script>
-    
   </body>
 </html>
