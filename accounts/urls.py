@@ -42,4 +42,5 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
+    path('confirm_email/<uuid:token>/', views.confirm_email, name='confirm_email'),
 ]

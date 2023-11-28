@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'accounts',
     'posts',
     'colorfield',
-    'notifications'
+    'notifications',
+    'crispy_forms'
 ]
 
 X_FRAME_OPTIONS  =  'MISMOORIGIN' 

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
 </head>
 
 <body>
@@ -18,7 +19,7 @@
       <div class="container-login100" style="background-image: url('/static/img/bg-01.jpg');">
         <div class="wrap-login100">
 
-          <form method="post" class="register-form">
+          <form method="post" id="registerForm" class="register-form">
             {% csrf_token %}
 
             <span class="login100-form-logo">
@@ -50,7 +51,7 @@
             {% endif %}
 
             <div class="container-login100-form-btn">
-              <button type="submit" class="login100-form-btn">
+              <button type="submit" class="login100-form-btn" id="registerButton">
                 Register
               </button>
             </div>
@@ -63,6 +64,24 @@
       </div>
     </div>
   </main>
+  <!-- Modal de Confirmación -->
+  <div id="modal" class="modal" style="display: none">
+    <div class="modal-content">
+        <h2>Por favor, revisa tu correo para confirmar tu registro.</h2>
+    </div>
+</div>
+
+<script>
+    var modal = document.getElementById("modal");
+    var registerButton = document.getElementById('registerButton');
+
+    registerButton.addEventListener('click', function(event) {
+        modal.style.display = "block";
+        setTimeout(function() {
+            window.location.href = "{% url 'login' %}";
+        }, 5000); // Redirige después de 5 segundos
+    });
+</script>
 </body>
 
 </html>

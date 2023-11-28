@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Registro</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            h1,p {
+                color: #ffffff;
+                text-align: center;
+            }
+        </style>
+</head>
+
+<body>
+    <main>
+        <div class="limiter">
+            <div class="container-login100" style="background-image: url('/static/img/bg-01.jpg');">
+                <div class="wrap-login100">
+                    <h1>Confirmación de Correo Electrónico</h1> <br>
+                    <p>{{ message }}</p> <br>
+                    {% if message == 'Tu correo electrónico ha sido confirmado exitosamente.' %}
+                        <a href="{% url 'login' %}" class="login100-form-btn">Iniciar Sesión</a>
+                    {% else %}
+                        <a href="{% url 'home' %}" class="login100-form-btn">Volver al Inicio</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

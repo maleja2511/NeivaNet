@@ -1,9 +1,7 @@
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView
-from .forms import RegisterForm
-from django.views.generic import TemplateView
-from django.shortcuts import get_object_or_404, render, redirect
-from .forms import UserProfileForm
+from django.views.generic import CreateView, TemplateView
+from .forms import RegisterForm, UserProfileForm
+from django.shortcuts import get_object_or_404, render, redirect, HttpResponse
 from .models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
@@ -12,6 +10,10 @@ from django.urls import reverse
 from django.contrib.auth.views import LoginView as AuthLoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 
 class CustomLoginView(AuthLoginView):
     def form_valid(self, form):
@@ -34,6 +36,45 @@ class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'accounts/register.html'
     success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_active = False  # No activar el usuario hasta que confirme el correo
+        user.save()
+        profile = UserProfile.objects.create(user=user)
+
+        # Enviar correo electrónico de confirmación
+        confirmation_link = self.request.build_absolute_uri(
+            reverse('confirm_email', args=[profile.confirmation_token])
+        )
+        subject = 'Confirmación de Registro'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to = user.email
+        text_content = 'Por favor, confirma tu registro haciendo clic en el siguiente enlace.'
+        html_content = render_to_string('accounts/confirmation_email.html', {
+            'confirmation_link': confirmation_link
+        })
+
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+        return super(RegisterView, self).form_valid(form)
+
+def confirm_email(request, token):
+    try:
+        profile = UserProfile.objects.get(confirmation_token=token)
+        if profile.confirmation_token_expired():
+            context = {'message': 'El enlace de confirmación ha expirado.'}
+            return render(request, 'accounts/email_confirmation.html', context)
+        else:
+            profile.user.is_active = True
+            profile.user.save()
+            context = {'message': 'Tu correo electrónico ha sido confirmado exitosamente.'}
+            return render(request, 'accounts/email_confirmation.html', context)
+    except UserProfile.DoesNotExist:
+        context = {'message': 'Enlace de confirmación inválido.'}
+        return render(request, 'accounts/email_confirmation.html', context)
     
 class UserProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/profile.html'
