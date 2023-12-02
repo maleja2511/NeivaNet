@@ -95,22 +95,82 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
 
         return context
     
+# @login_required
+# def update_profile(request):
+#     profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST, request.FILES, instance=profile)
+#         if form.is_valid():
+#             form.save()
+#             request.user.first_name = request.POST['first_name']
+#             request.user.last_name = request.POST['last_name']
+            
+
+#             # Verificar si los campos first_name y last_name están en blanco
+#             if not request.user.first_name or not request.user.last_name:
+#                 messages.error(request, "Los campos de 'first name' y 'last name' son obligatorios.")
+#                 return redirect('update_profile')
+
+
+#             request.user.save()
+#             return redirect('profile')
+#     else:
+#         # Si el perfil ya tiene una fecha de nacimiento, omite el campo en el formulario
+#         if profile.date_of_birth:
+#             initial_data = {
+#                 'profile_picture': profile.profile_picture,
+#                 'date_of_birth': profile.date_of_birth
+#             }
+#             form = UserProfileForm(instance=profile, initial=initial_data)
+#         else:
+#             form = UserProfileForm(instance=profile)
+
+#     return render(request, 'accounts/update_profile.html', {'form': form})
+
+
+
 @login_required
 def update_profile(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
-    
+
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
+            # Obtener los datos del formulario
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+
+            # Verificar si los campos first_name y last_name están en blanco
+            if not first_name or not last_name:
+                messages.error(request, "Los campos de 'first name' y 'last name' son obligatorios.")
+                return render(request, 'accounts/update_profile.html', {'form': form})
+
+            # Guardar el perfil y el usuario
             form.save()
-            request.user.first_name = request.POST['first_name']
-            request.user.last_name = request.POST['last_name']
+            request.user.first_name = first_name
+            request.user.last_name = last_name
             request.user.save()
+
+            messages.success(request, "Perfil actualizado con éxito.")
             return redirect('profile')
+        else:
+            # Si el formulario no es válido, muestra los errores
+            messages.error(request, "Hay errores en el formulario.")
     else:
         form = UserProfileForm(instance=profile)
-        
+
     return render(request, 'accounts/update_profile.html', {'form': form})
+
+
+
+
+
+
+
+
+
+
 
 # En la vista de restablecimiento de contraseña
 class CustomPasswordResetView(PasswordResetView):

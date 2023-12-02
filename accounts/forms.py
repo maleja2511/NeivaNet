@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 from django.core.exceptions import ValidationError
+import datetime
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -23,8 +24,18 @@ class RegisterForm(UserCreationForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    first_name = forms.CharField(required=True, error_messages={'required': 'El campo first name es obligatorio.'})
+    last_name = forms.CharField(required=True, error_messages={'required': 'El campo last name es obligatorio.'})
+
+
     date_of_birth = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date'})
+        widget=forms.DateInput
+        (attrs={
+            'type': 'date',
+            'min': '1940-01-01',
+            'max': '2005-12-31'
+            }
+        )
     )
 
     class Meta:

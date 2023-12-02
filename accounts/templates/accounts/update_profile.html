@@ -30,29 +30,41 @@
             </div>
           
             <!-- Add first_name and last_name fields -->
-            <div class="form-group form-index">
-              <label for="id_first_name">First Name:</label>
+             <!-- Campo first_name -->
+             <div class="form-group form-index">
+              <label for="id_first_name">First Name: <span class="text-danger">*</span></label>
               <input
                 type="text"
                 name="first_name"
                 id="id_first_name"
                 value="{{ user.first_name }}"
                 maxlength="20"
+                required  
               />
             </div>
+
+            <!-- Campo last_name -->
             <div class="form-group form-index">
-              <label for="id_last_name">Last Name:</label>
+              <label for="id_last_name">Last Name: <span class="text-danger">*</span></label>
               <input
                 type="text"
                 name="last_name"
                 id="id_last_name"
                 value="{{ user.last_name }}"
                 maxlength="20"
+                required  
               />
             </div>
-            <div class="form-group form-index">
-              {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
-            </div>
+<!-- Campo date_of_birth -->
+<div class="form-group form-index">
+  {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
+  {% if form.date_of_birth.errors %}
+      <div class="alert alert-danger">
+          {{ form.date_of_birth.errors }}
+      </div>
+  {% endif %}
+</div>
+
 
             {% if form.errors %}
             <ul class="errorlist">
@@ -76,4 +88,5 @@
     </div>
 </div>
 </div>
+
 {% endblock %}
